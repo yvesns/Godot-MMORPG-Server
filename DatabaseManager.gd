@@ -5,7 +5,6 @@ var db
 var dbFile = "res://database.sql"
 
 func _ready():
-	pass
 	
 func init_database():
 	var result = null
@@ -16,4 +15,7 @@ func init_database():
 		print("Failed to open database.")
 		return
 		
-	print(db.query(DatabaseQueries.create_user))
+	print(db.query(DatabaseQueries.get_create_user_table_query()))
+	
+func has_user(user):
+	pass

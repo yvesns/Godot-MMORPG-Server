@@ -2,7 +2,7 @@ extends Node
 
 var user_table = "GameUser"
 
-func create_user_table():
+func get_create_user_table_query():
 	var query = ""
 	
 	query = "CREATE TABLE IF NOT EXISTS " + user_table + " (";

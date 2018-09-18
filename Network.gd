@@ -67,3 +67,15 @@ remote func login(id, user, password_hash, security_token):
 		return
 		
 	rpc_id(id, "login_success", user_characters)
+	
+remote func register(user, password, email):
+	if DatabaseManager.has_user(user):
+		return [false, "Username already taken"]
+		
+	if DatabaseManager.has_email(email):
+		return [false, "Email address already in use"]
+		
+	if DatabaseManager.insert_user(user, password, email):
+		return [true, "Registered successfully"]
+	
+	return [false, "Registration failed"]
