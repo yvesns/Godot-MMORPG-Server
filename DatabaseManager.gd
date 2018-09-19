@@ -5,7 +5,8 @@ var db
 var dbFile = "res://database.sql"
 
 func _ready():
-	
+	pass
+
 func init_database():
 	var result = null
 	
