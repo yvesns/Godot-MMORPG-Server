@@ -20,6 +20,10 @@ Network="*res://Network.gd"
 DatabaseManager="*res://DatabaseManager.gd"
 DatabaseQueries="*res://DatabaseQueries.gd"
 
+[gdnative]
+
+singletons=[  ]
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"

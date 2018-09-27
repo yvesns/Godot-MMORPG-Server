@@ -1,2 +1,4 @@
 .import
 *.sql
+bin
+*.bak
