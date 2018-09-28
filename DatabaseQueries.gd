@@ -6,8 +6,7 @@ func create_user_table():
 	var query
 	
 	query = "CREATE TABLE IF NOT EXISTS " + user_table + " (";
-	query += "id integer PRIMARY KEY AUTOINCREMENT,";
-	query += "login text NOT NULL,";
+	query += "login text PRIMARY KEY,";
 	query += "password_hash integer NOT NULL";
 	query += ");";
 	
@@ -15,3 +14,6 @@ func create_user_table():
 	
 func insert_user(): 
 	return "INSERT INTO " + user_table + "(login, password_hash) VALUES(?,?);"
+	
+func select_user():
+	return "SELECT * FROM " + user_table + " WHERE login = ?;"
