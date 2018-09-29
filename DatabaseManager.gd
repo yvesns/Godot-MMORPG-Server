@@ -13,10 +13,8 @@ func _ready():
 func init_database():
 	SQLite = load("res://lib/gdsqlite.gdns")
 	var result = null
-	var param_array = Array()
-	var param_types = Array()
 	
-	#Just for testing
+	#Just for testing, remove later.
 	Directory.new().remove("res://database.sql")
 	
 	db = SQLite.new()
@@ -27,20 +25,9 @@ func init_database():
 		
 	print(db.simple_query(DatabaseQueries.create_user_table()))
 	
-	param_array.append("test")
-	param_array.append(str("test".hash()))
-	param_types.append(TEXT)
-	param_types.append(TEXT)
-	
-	print(db.query(DatabaseQueries.insert_user(), param_array, param_types))
-	
-	#Testing
-	#print(db.fetch_assoc(DatabaseQueries.select_user(), ["test"], [TEXT]))
-	var test1 = Array()
-	test1.append("test")
-	var test2 = Array()
-	test2.append(TEXT)
-	print(db.fetch_assoc(test1, test2))
+	#Just for testing, remove later.
+	print(db.query(DatabaseQueries.insert_user(), ["test", str("test".hash()), "mail"], [TEXT, TEXT, TEXT]))
+	print(db.fetch_assoc(DatabaseQueries.select_user(), ["test"], [TEXT]))
 	
 func has_user(user):
-	pass
+	return db.fetch_assoc(DatabaseQueries.select_user(), [user], [TEXT]).size() > 0
