@@ -25,9 +25,20 @@ func init_database():
 		
 	print(db.simple_query(DatabaseQueries.create_user_table()))
 	
-	#Just for testing, remove later.
-	print(db.query(DatabaseQueries.insert_user(), ["test", str("test".hash()), "mail"], [TEXT, TEXT, TEXT]))
+	#Remove later.
+	run_tests()
+	
+func run_tests():
+	print(insert_user("test", str("test".hash()), "mail"))
 	print(db.fetch_assoc(DatabaseQueries.select_user(), ["test"], [TEXT]))
+	print(has_user("test"))
+	print(has_email("mail"))
 	
 func has_user(user):
 	return db.fetch_assoc(DatabaseQueries.select_user(), [user], [TEXT]).size() > 0
+	
+func has_email(email):
+	return db.fetch_assoc(DatabaseQueries.select_user("email"), [email], [TEXT]).size() > 0
+	
+func insert_user(user, password, email):
+	return db.query(DatabaseQueries.insert_user(), [user, password, email], [TEXT, TEXT, TEXT])

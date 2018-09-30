@@ -16,5 +16,10 @@ func create_user_table():
 func insert_user(): 
 	return "INSERT INTO " + user_table + "(login, password_hash, email) VALUES(?,?,?);"
 	
-func select_user():
-	return "SELECT * FROM " + user_table + " WHERE login = ?;"
+func select_user(function = ""):
+	if function == "":
+		return "SELECT * FROM " + user_table + " WHERE login = ?;"
+		
+	if (function == "has_email" ||
+	    function == "email"):
+		return "SELECT * FROM " + user_table + " WHERE email = ?;"

@@ -75,7 +75,7 @@ remote func register(user, password, email):
 	if DatabaseManager.has_email(email):
 		return [false, "Email address already in use"]
 		
-	if DatabaseManager.insert_user(user, password, email):
+	if DatabaseManager.insert_user(user, str(password.hash()), email):
 		return [true, "Registered successfully"]
 	
 	return [false, "Registration failed"]
