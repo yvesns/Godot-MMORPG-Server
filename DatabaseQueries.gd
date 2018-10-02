@@ -1,11 +1,16 @@
 extends Node
 
-var user_table = "GameUser"
+var player_table = "Player"
+var player_character_table = "PlayerCharacter"
 
-func create_user_table():
+################
+# Player table #
+################
+
+func create_player_table():
 	var query
 	
-	query = "CREATE TABLE IF NOT EXISTS " + user_table + " (";
+	query = "CREATE TABLE IF NOT EXISTS " + player_table + " (";
 	query += "login text PRIMARY KEY,";
 	query += "password_hash integer NOT NULL,";
 	query += "email text UNIQUE NOT NULL";
@@ -13,13 +18,31 @@ func create_user_table():
 	
 	return query
 	
-func insert_user(): 
-	return "INSERT INTO " + user_table + "(login, password_hash, email) VALUES(?,?,?);"
+func insert_player(): 
+	return "INSERT INTO " + player_table + "(login, password_hash, email) VALUES(?,?,?);"
 	
-func select_user(function = ""):
+func select_player(function = ""):
 	if function == "":
-		return "SELECT * FROM " + user_table + " WHERE login = ?;"
+		return "SELECT * FROM " + player_table + " WHERE login = ?;"
 		
 	if (function == "has_email" ||
 	    function == "email"):
-		return "SELECT * FROM " + user_table + " WHERE email = ?;"
+		return "SELECT * FROM " + player_table + " WHERE email = ?;"
+		
+##########################
+# Player character table #
+##########################
+	
+func create_player_character_table():
+	var query
+	
+	query = "CREATE TABLE IF NOT EXISTS " + player_character_table + " (";
+	query += "name text PRIMARY KEY,";
+	query += "player_fk text,";
+	query += "FOREIGN KEY(player_fk) REFERENCES " + player_table + "(artistid)";
+	query += ");";
+	
+	return query
+	
+func insert_player_character():
+	return "INSERT INTO " + player_character_table + "(name, player_fk) VALUES(?,?);"

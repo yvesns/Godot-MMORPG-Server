@@ -23,22 +23,38 @@ func init_database():
 		print("Failed to open database.")
 		return
 		
-	print(db.simple_query(DatabaseQueries.create_user_table()))
+	print(db.simple_query(DatabaseQueries.create_player_table()))
+	print(db.simple_query(DatabaseQueries.create_player_character_table()))
 	
 	#Remove later.
 	run_tests()
 	
 func run_tests():
-	print(insert_user("test", str("test".hash()), "mail"))
-	print(db.fetch_assoc(DatabaseQueries.select_user(), ["test"], [TEXT]))
-	print(has_user("test"))
+	print(insert_player("test", str("test".hash()), "mail"))
+	print(insert_player_character("TestCharacter", "test"))
+	print(db.fetch_assoc(DatabaseQueries.select_player(), ["test"], [TEXT]))
+	print(has_player("test"))
 	print(has_email("mail"))
 	
-func has_user(user):
-	return db.fetch_assoc(DatabaseQueries.select_user(), [user], [TEXT]).size() > 0
+##########
+# Player #
+##########
+	
+func has_player(player):
+	return db.fetch_assoc(DatabaseQueries.select_player(), [player], [TEXT]).size() > 0
 	
 func has_email(email):
-	return db.fetch_assoc(DatabaseQueries.select_user("email"), [email], [TEXT]).size() > 0
+	return db.fetch_assoc(DatabaseQueries.select_player("email"), [email], [TEXT]).size() > 0
 	
-func insert_user(user, password, email):
-	return db.query(DatabaseQueries.insert_user(), [user, password, email], [TEXT, TEXT, TEXT])
+func insert_player(login, password, email):
+	return db.query(DatabaseQueries.insert_player(), [login, password, email], [TEXT, TEXT, TEXT])
+	
+func get_player(player):
+	return db.query(DatabaseQueries.select_player(), [player], [TEXT])
+	
+####################
+# Player character #
+####################
+	
+func insert_player_character(character_name, player):
+	return db.query(DatabaseQueries.insert_player_character(), [character_name, player], [TEXT, TEXT])

@@ -9,7 +9,6 @@ var maps = {}
 
 func _ready():
 	init()
-	init_maps()
 	
 	peer = NetworkedMultiplayerENet.new()
 	peer.create_server(SERVER_PORT, MAX_PLAYERS)
@@ -52,30 +51,30 @@ func _player_connected(id):
 	
 	#rpc_id(id, "network_init", info)
 	
-remote func login(id, user, password_hash, security_token):
+remote func login(id, player, password_hash, security_token):
 	if (!character_info.has(id) ||
 		character_info[id].login_security_token != security_token):
 		return
 	
-	var user_info = DatabaseManager.get_user(user)
-	var user_characters = DatabaseManager.get_characters(user)
+	var player_info = DatabaseManager.get_player(player)
+	var player_characters = DatabaseManager.get_characters(player)
 	
-	if (!user_info || 
-		user_info.password_hash != password_hash ||
-		!user_characters):
+	if (!player_info || 
+		player_info.password_hash != password_hash ||
+		!player_characters):
 		rpc_id(id, "login_failure")
 		return
 		
 	rpc_id(id, "login_success", user_characters)
 	
-remote func register(user, password, email):
-	if DatabaseManager.has_user(user):
+remote func register(login, password, email):
+	if DatabaseManager.has_player(login):
 		return [false, "Username already taken"]
 		
 	if DatabaseManager.has_email(email):
 		return [false, "Email address already in use"]
 		
-	if DatabaseManager.insert_user(user, str(password.hash()), email):
+	if DatabaseManager.insert_player(login, str(password.hash()), email):
 		return [true, "Registered successfully"]
 	
 	return [false, "Registration failed"]
