@@ -51,9 +51,11 @@ func _player_connected(id):
 	
 	#rpc_id(id, "network_init", info)
 	
+func validate_credentials(id, security_token):
+	return !character_info.has(id) || character_info[id].login_security_token != security_token
+	
 remote func login(id, player, password_hash, security_token):
-	if (!character_info.has(id) ||
-		character_info[id].login_security_token != security_token):
+	if validate_credentials(id, security_token):
 		return
 	
 	var player_info = DatabaseManager.get_player(player)
@@ -65,16 +67,22 @@ remote func login(id, player, password_hash, security_token):
 		rpc_id(id, "login_failure")
 		return
 		
-	rpc_id(id, "login_success", user_characters)
+	rpc_id(id, "login_success", player_characters)
 	
-remote func register(login, password, email):
+remote func register(id, login, password_hash, email, security_token):
+	if validate_credentials(id, security_token):
+		return
+		
 	if DatabaseManager.has_player(login):
-		return [false, "Username already taken"]
+		rpc_id(id, "registration_failure", "Username already taken")
+		return
 		
 	if DatabaseManager.has_email(email):
-		return [false, "Email address already in use"]
+		rpc_id(id, "registration_failure", "Email address already in use")
+		return
 		
-	if DatabaseManager.insert_player(login, str(password.hash()), email):
-		return [true, "Registered successfully"]
+	if DatabaseManager.insert_player(login, password_hash, email):
+		rpc_id(id, "registration_success", "Registered successfully")
+		return
 	
-	return [false, "Registration failed"]
+	rpc_id(id, "registration_failure", "Registration failed")
