@@ -59,13 +59,13 @@ remote func login(id, player, password_hash, security_token):
 		return
 	
 	var player_info = DatabaseManager.get_player(player)
-	var player_characters = DatabaseManager.get_characters(player)
 	
-	if (!player_info || 
-		player_info.password_hash != password_hash ||
-		!player_characters):
+	if (player_info.size() <= 0 ||
+		player_info[0].password_hash != password_hash):
 		rpc_id(id, "login_failure")
 		return
+	
+	var player_characters = DatabaseManager.get_characters(player)
 		
 	rpc_id(id, "login_success", player_characters)
 	

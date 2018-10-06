@@ -1,7 +1,6 @@
 extends Node
 
 var SQLite
-#var SQLite = preload("res://lib/gdsqlite.gdns")
 var db
 var db_file = "res://database.sql"
 
@@ -30,7 +29,7 @@ func init_database():
 	run_tests()
 	
 func run_tests():
-	print(insert_player("test", str("test".hash()), "mail"))
+	print(insert_player("test", "test".hash(), "mail"))
 	print(insert_player_character("TestCharacter", "test"))
 	print(db.fetch_assoc(DatabaseQueries.select_player(), ["test"], [TEXT]))
 	print(has_player("test"))
@@ -47,10 +46,10 @@ func has_email(email):
 	return db.fetch_assoc(DatabaseQueries.select_player("email"), [email], [TEXT]).size() > 0
 	
 func insert_player(login, password, email):
-	return db.query(DatabaseQueries.insert_player(), [login, password, email], [TEXT, TEXT, TEXT])
+	return db.query(DatabaseQueries.insert_player(), [login, password, email], [TEXT, INT, TEXT])
 	
 func get_player(player):
-	return db.query(DatabaseQueries.select_player(), [player], [TEXT])
+	return db.fetch_assoc(DatabaseQueries.select_player(), [player], [TEXT])
 	
 ####################
 # Player character #
@@ -58,3 +57,6 @@ func get_player(player):
 	
 func insert_player_character(character_name, player):
 	return db.query(DatabaseQueries.insert_player_character(), [character_name, player], [TEXT, TEXT])
+	
+func get_characters(player):
+	return db.fetch_assoc(DatabaseQueries.select_player_characters(), [player], [TEXT])

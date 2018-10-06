@@ -38,7 +38,7 @@ func create_player_character_table():
 	
 	query = "CREATE TABLE IF NOT EXISTS " + player_character_table + " (";
 	query += "name text PRIMARY KEY,";
-	query += "player_fk text,";
+	query += "player_fk text NOT NULL,";
 	query += "FOREIGN KEY(player_fk) REFERENCES " + player_table + "(artistid)";
 	query += ");";
 	
@@ -46,3 +46,9 @@ func create_player_character_table():
 	
 func insert_player_character():
 	return "INSERT INTO " + player_character_table + "(name, player_fk) VALUES(?,?);"
+	
+func select_player_character():
+	return "SELECT * FROM " + player_character_table + " WHERE name = ?;"
+	
+func select_player_characters():
+	return "SELECT * FROM " + player_character_table + " WHERE player_fk = ?;"
