@@ -31,6 +31,8 @@ func init_database():
 func run_tests():
 	print(insert_player("test", "test".hash(), "mail"))
 	print(insert_player_character("TestCharacter", "test"))
+	print(insert_player_character("TestCharacter2", "test"))
+	print(insert_player_character("TestCharacter3", "test"))
 	print(db.fetch_assoc(DatabaseQueries.select_player(), ["test"], [TEXT]))
 	print(has_player("test"))
 	print(has_email("mail"))
