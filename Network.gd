@@ -86,3 +86,11 @@ remote func register(id, login, password_hash, email, security_token):
 		return
 	
 	rpc_id(id, "registration_failure", "Registration failed")
+	
+remote func connect_character(id, security_token, character):
+	if validate_credentials(id, security_token):
+		return
+	
+	character_info[id]["character"] = character
+	
+	rpc_id(id, "character_connection_success")
