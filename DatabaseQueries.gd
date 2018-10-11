@@ -2,6 +2,7 @@ extends Node
 
 var player_table = "Player"
 var player_character_table = "PlayerCharacter"
+var race_table = "Race"
 
 ################
 # Player table #
@@ -52,3 +53,22 @@ func select_player_character():
 	
 func select_player_characters():
 	return "SELECT * FROM " + player_character_table + " WHERE player_fk = ?;"
+	
+##############
+# Race table #
+##############
+
+func create_race_table():
+	var query
+	
+	query = "CREATE TABLE IF NOT EXISTS " + race_table + " (";
+	query += "name text PRIMARY KEY";
+	query += ");";
+	
+	return query
+	
+func insert_race():
+	return "INSERT INTO " + race_table + "(name) VALUES(?);"
+	
+func select_race():
+	return "SELECT * FROM " + race_table + " WHERE name = ?;"
