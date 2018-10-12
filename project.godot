@@ -16,6 +16,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+Global="*res://Global.gd"
 Network="*res://Network.gd"
 DatabaseManager="*res://DatabaseManager.gd"
 DatabaseQueries="*res://DatabaseQueries.gd"

@@ -64,10 +64,10 @@ remote func login(id, player, password_hash, security_token):
 		player_info[0].password_hash != password_hash):
 		rpc_id(id, "login_failure")
 		return
-	
-	var player_characters = DatabaseManager.get_characters(player)
 		
-	rpc_id(id, "login_success", player_characters)
+	character_info[id]["player"] = player_info[0].login
+		
+	rpc_id(id, "login_success", DatabaseManager.get_characters(player))
 	
 remote func register(id, login, password_hash, email, security_token):
 	if validate_credentials(id, security_token):
@@ -94,3 +94,24 @@ remote func connect_character(id, security_token, character):
 	character_info[id]["character"] = character
 	
 	rpc_id(id, "character_connection_success")
+	
+remote func create_character(id, security_token, character):
+	if validate_credentials(id, security_token):
+		return
+		
+	var character_count = DatabaseManager.get_characters(character_info[id]["player"]).size()
+	var character_class
+		
+	if character_count >= Global.maximum_player_characters:
+		rpc_id(id, "character_creation_failure", "Maximum number of characters reached")
+		return
+		
+	if DatabaseManager.has_character(character.character_name):
+		rpc_id(id, "character_creation_failure", "Name already taken")
+		return
+		
+	character_class = DatabaseManager.select_class(character.character_class)
+	
+	if (character_class.size() <= 0 ||
+	    character_class[0].race_fk != character.race):
+		return
