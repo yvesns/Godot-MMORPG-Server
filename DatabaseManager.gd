@@ -36,12 +36,12 @@ func init_tables():
 	db.query(DatabaseQueries.insert_race(), ["Human"], [TEXT])
 	db.query(DatabaseQueries.insert_race(), ["Vampire"], [TEXT])
 	
-	db.query(DatabaseQueries.insert_class(), ["Fighter", "Human"], [TEXT])
-	db.query(DatabaseQueries.insert_class(), ["Mage", "Human"], [TEXT])
-	db.query(DatabaseQueries.insert_class(), ["Healer", "Human"], [TEXT])
+	db.query(DatabaseQueries.insert_class(), ["Fighter", "Human"], [TEXT, TEXT])
+	db.query(DatabaseQueries.insert_class(), ["Mage", "Human"], [TEXT, TEXT])
+	db.query(DatabaseQueries.insert_class(), ["Healer", "Human"], [TEXT, TEXT])
 	
-	db.query(DatabaseQueries.insert_class(), ["Blood Seeker", "Vampire"], [TEXT])
-	db.query(DatabaseQueries.insert_class(), ["Strigoi", "Vampire"], [TEXT])
+	db.query(DatabaseQueries.insert_class(), ["Blood Seeker", "Vampire"], [TEXT, TEXT])
+	db.query(DatabaseQueries.insert_class(), ["Strigoi", "Vampire"], [TEXT, TEXT])
 	
 func run_tests():
 	print(insert_player("test", "test".hash(), "mail"))

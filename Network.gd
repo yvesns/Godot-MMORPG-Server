@@ -98,20 +98,16 @@ remote func connect_character(id, security_token, character):
 remote func create_character(id, security_token, character):
 	if validate_credentials(id, security_token):
 		return
-		
-	var character_count = DatabaseManager.get_characters(character_info[id]["player"]).size()
-	var character_class
-		
-	if character_count >= Global.maximum_player_characters:
-		rpc_id(id, "character_creation_failure", "Maximum number of characters reached")
-		return
-		
-	if DatabaseManager.has_character(character.character_name):
-		rpc_id(id, "character_creation_failure", "Name already taken")
-		return
-		
-	character_class = DatabaseManager.select_class(character.character_class)
 	
-	if (character_class.size() <= 0 ||
-	    character_class[0].race_fk != character.race):
+	var player = character_info[id]["player"]
+	var error_message = Global.validate_character_creation_info(player, character)
+	
+	if error_message != null:
+		rpc_id(id, "character_creation_failure", error_message)
 		return
+		
+	if !DatabaseManager.insert_player_character(character):
+		rpc_id(id, "character_creation_failure", "An error has ocurred")
+		return
+		
+	rpc_id(id, "character_creation_success", DatabaseManager.get_characters(player))

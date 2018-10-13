@@ -88,7 +88,7 @@ func create_class_table():
 	query = "CREATE TABLE IF NOT EXISTS " + class_table + " (";
 	query += "name text PRIMARY KEY,";
 	query += "race_fk text NOT NULL,";
-	query += "FOREIGN KEY(race_fk) REFERENCES " + race_table_table + "(name)";
+	query += "FOREIGN KEY(race_fk) REFERENCES " + race_table + "(name)";
 	query += ");";
 	
 	return query
