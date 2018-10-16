@@ -51,7 +51,7 @@ func create_player_character_table():
 	return query
 	
 func insert_player_character():
-	return "INSERT INTO " + player_character_table + "(name, player_fk, class_fk) VALUES(?,?,?);"
+	return "INSERT INTO " + player_character_table + "(name, player_fk, race_fk, class_fk) VALUES(?,?,?,?);"
 	
 func select_player_character():
 	return "SELECT * FROM " + player_character_table + " WHERE name = ?;"

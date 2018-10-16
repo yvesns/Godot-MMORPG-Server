@@ -24,10 +24,10 @@ func validate_character_creation_info(player, character):
 	if DatabaseManager.has_character(character.character_name):
 		return "Name already taken"
 		
-	character_class = DatabaseManager.select_class(character.character_class)
+	character_class = DatabaseManager.get_class(character.character_class)
 	
 	if (character_class.size() <= 0 ||
-	    character_class[0].race_fk != character.race):
+	    character_class[0].race_fk != character.character_race):
 		return "Invalid race or class"
 		
 	return null

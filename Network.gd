@@ -33,24 +33,6 @@ func _player_connected(id):
 	
 	rpc_id(id, "network_init", security_token)
 	
-	#Check credentials
-	#Associate credentials/connection to id
-	#Load player information from the database
-	#Add player to player list
-	#Send information to all players in the same map about the new player
-	#Send initialization info to the new player
-	
-	#var info = {
-	#	id = id,
-	#	map = "TestMap",
-	#	position = Vector2(10, 10),
-	#}
-	
-	#player_info[id] = info
-	#maps[info.map].players.append(id)
-	
-	#rpc_id(id, "network_init", info)
-	
 func validate_credentials(id, security_token):
 	return !character_info.has(id) || character_info[id].login_security_token != security_token
 	
@@ -106,7 +88,7 @@ remote func create_character(id, security_token, character):
 		rpc_id(id, "character_creation_failure", error_message)
 		return
 		
-	if !DatabaseManager.insert_player_character(character):
+	if !DatabaseManager.insert_player_character(player, character):
 		rpc_id(id, "character_creation_failure", "An error has ocurred")
 		return
 		

@@ -1,5 +1,8 @@
 extends Node
 
+# TODO
+# 1. Create a separate query to initialize the tables
+
 var SQLite
 var db
 var db_file = "res://database.sql"
@@ -33,21 +36,35 @@ func init_tables():
 	print(db.simple_query(DatabaseQueries.create_class_table()))
 	print(db.simple_query(DatabaseQueries.create_player_character_table()))
 	
+	# TODO: put these insertions in a separate query
 	db.query(DatabaseQueries.insert_race(), ["Human"], [TEXT])
 	db.query(DatabaseQueries.insert_race(), ["Vampire"], [TEXT])
 	
+	db.query(DatabaseQueries.insert_class(), ["CommonHuman", "Human"], [TEXT, TEXT])
 	db.query(DatabaseQueries.insert_class(), ["Fighter", "Human"], [TEXT, TEXT])
 	db.query(DatabaseQueries.insert_class(), ["Mage", "Human"], [TEXT, TEXT])
 	db.query(DatabaseQueries.insert_class(), ["Healer", "Human"], [TEXT, TEXT])
 	
+	db.query(DatabaseQueries.insert_class(), ["CommonVampire", "Vampire"], [TEXT, TEXT])
 	db.query(DatabaseQueries.insert_class(), ["Blood Seeker", "Vampire"], [TEXT, TEXT])
 	db.query(DatabaseQueries.insert_class(), ["Strigoi", "Vampire"], [TEXT, TEXT])
 	
 func run_tests():
+	var char1 = {
+		character_name = "TestCharacter",
+		character_race = "Human",
+		character_class = "CommonHuman"
+	}
+	
+	var char2 = {
+		character_name = "TestCharacter2",
+		character_race = "Vampire",
+		character_class = "Blood Seeker"
+	}
+	
 	print(insert_player("test", "test".hash(), "mail"))
-	print(insert_player_character("TestCharacter", "test", "Human", "Fighter"))
-	print(insert_player_character("TestCharacter2", "test", "Vampire", "Blood Seeker"))
-	print(insert_player_character("TestCharacter3", "test", "Vampire", "Strigoi"))
+	print(insert_player_character("test", char1))
+	print(insert_player_character("test", char2))
 	print(db.fetch_assoc(DatabaseQueries.select_player(), ["test"], [TEXT]))
 	print(has_player("test"))
 	print(has_email("mail"))
@@ -71,9 +88,20 @@ func get_player(player):
 ####################
 # Player character #
 ####################
+
+func has_character(character):
+	return db.fetch_assoc(DatabaseQueries.select_player_character(), [character], [TEXT]).size() > 0
 	
-func insert_player_character(character_name, player, race, character_class):
-	return db.query(DatabaseQueries.insert_player_character(), [character_name, player, race, character_class], [TEXT, TEXT, TEXT, TEXT])
+func insert_player_character(player, character):
+	var info = [character.character_name, player, character.character_race, character.character_class]
+	return db.query(DatabaseQueries.insert_player_character(), info, [TEXT, TEXT, TEXT, TEXT])
 	
 func get_characters(player):
 	return db.fetch_assoc(DatabaseQueries.select_player_characters(), [player], [TEXT])
+	
+#########
+# Class #
+#########
+
+func get_class(character_class):
+	return db.fetch_assoc(DatabaseQueries.select_class(), [character_class], [TEXT])
