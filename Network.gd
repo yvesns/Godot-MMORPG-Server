@@ -93,3 +93,33 @@ remote func create_character(id, security_token, character):
 		return
 		
 	rpc_id(id, "character_creation_success", DatabaseManager.get_characters(player))
+	
+remote func delete_character(id, security_token, password_hash, character):
+	if validate_credentials(id, security_token):
+		return
+		
+	var player = character_info[id]["player"]
+	var player_info
+	var db_character
+	
+	if player == null:
+		rpc_id(id, "character_deletion_failure", "An error has ocurred")
+		return
+	
+	player_info = DatabaseManager.get_player(player)
+	
+	if (player_info.size() <= 0 ||
+		player_info[0].password_hash != password_hash):
+		rpc_id(id, "character_deletion_failure", "An error has ocurred")
+		return
+		
+	db_character = DatabaseManager.get_character(character.get_name())
+	
+	if (db_character.size() <= 0 ||
+	    db_character[0].player_fk != player):
+		rpc_id(id, "character_deletion_failure", "An error has ocurred")
+		return
+	
+	DatabaseManager.delete_character(character.get_name())
+	
+	rpc_id(id, "character_deletion_success")

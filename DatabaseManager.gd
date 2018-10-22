@@ -99,6 +99,9 @@ func insert_player_character(player, character):
 func get_characters(player):
 	return db.fetch_assoc(DatabaseQueries.select_player_characters(), [player], [TEXT])
 	
+func get_character(character):
+	return db.fetch_assoc(DatabaseQueries.select_player_character(), [character], [TEXT])
+	
 #########
 # Class #
 #########
