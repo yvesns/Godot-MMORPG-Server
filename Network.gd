@@ -7,6 +7,8 @@ var MAX_PLAYERS = 10
 var character_info = {}
 var maps = {}
 
+var PlayerCharacter = preload("res://Classes/Player/PlayerCharacter.gd")
+
 func _ready():
 	init()
 	
@@ -77,9 +79,12 @@ remote func connect_character(id, security_token, character):
 	
 	rpc_id(id, "character_connection_success")
 	
-remote func create_character(id, security_token, character):
+remote func create_character(id, security_token, serialized_character):
 	if validate_credentials(id, security_token):
 		return
+	
+	var character = PlayerCharacter.new()
+	character.deserialize(serialized_character)
 	
 	var player = character_info[id]["player"]
 	var error_message = Global.validate_character_creation_info(player, character)
@@ -94,7 +99,7 @@ remote func create_character(id, security_token, character):
 		
 	rpc_id(id, "character_creation_success", DatabaseManager.get_characters(player))
 	
-remote func delete_character(id, security_token, password_hash, character):
+remote func delete_character(id, security_token, password_hash, character_name):
 	if validate_credentials(id, security_token):
 		return
 		
@@ -113,13 +118,13 @@ remote func delete_character(id, security_token, password_hash, character):
 		rpc_id(id, "character_deletion_failure", "An error has ocurred")
 		return
 		
-	db_character = DatabaseManager.get_character(character.get_name())
+	db_character = DatabaseManager.get_character(character_name)
 	
 	if (db_character.size() <= 0 ||
 	    db_character[0].player_fk != player):
 		rpc_id(id, "character_deletion_failure", "An error has ocurred")
 		return
 	
-	DatabaseManager.delete_character(character.get_name())
+	DatabaseManager.delete_character(character_name)
 	
 	rpc_id(id, "character_deletion_success")

@@ -50,17 +50,17 @@ func init_tables():
 	db.query(DatabaseQueries.insert_class(), ["Strigoi", "Vampire"], [TEXT, TEXT])
 	
 func run_tests():
-	var char1 = {
-		character_name = "TestCharacter",
-		character_race = "Human",
-		character_class = "CommonHuman"
-	}
+	var character_class = preload("res://Classes/Player/PlayerCharacter.gd")
 	
-	var char2 = {
-		character_name = "TestCharacter2",
-		character_race = "Vampire",
-		character_class = "Blood Seeker"
-	}
+	var char1 = character_class.new()
+	char1.set_name("TestCharacter")
+	char1.set_race("Human")
+	char1.set_class("CommonHuman")
+	
+	var char2 = character_class.new()
+	char2.set_name("TestCharacter2")
+	char2.set_race("Vampire")
+	char2.set_class("Blood Seeker")
 	
 	print(insert_player("test", "test".hash(), "mail"))
 	print(insert_player_character("test", char1))
@@ -93,7 +93,8 @@ func has_character(character):
 	return db.fetch_assoc(DatabaseQueries.select_player_character(), [character], [TEXT]).size() > 0
 	
 func insert_player_character(player, character):
-	var info = [character.character_name, player, character.character_race, character.character_class]
+	var info = [character.get_name(), player, character.get_race(), character.get_class()]
+	
 	return db.query(DatabaseQueries.insert_player_character(), info, [TEXT, TEXT, TEXT, TEXT])
 	
 func get_characters(player):
