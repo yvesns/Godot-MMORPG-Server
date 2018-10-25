@@ -103,6 +103,9 @@ func get_characters(player):
 func get_character(character):
 	return db.fetch_assoc(DatabaseQueries.select_player_character(), [character], [TEXT])
 	
+func delete_character(character_name):
+	return db.query(DatabaseQueries.delete_player_character(), [character_name], [TEXT])
+	
 #########
 # Class #
 #########

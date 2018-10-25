@@ -59,6 +59,9 @@ func select_player_character():
 func select_player_characters():
 	return "SELECT * FROM " + player_character_table + " WHERE player_fk = ?;"
 	
+func delete_player_character():
+	return "DELETE FROM " + player_character_table + " WHERE name = ?;"
+	
 ##############
 # Race table #
 ##############
