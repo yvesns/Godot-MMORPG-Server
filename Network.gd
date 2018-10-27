@@ -18,6 +18,7 @@ func _ready():
 	get_tree().set_meta("network_peer", peer)
 	
 	get_tree().connect("network_peer_connected", self, "_player_connected")
+	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 	
 func init():
 	DatabaseManager.init_database()
@@ -35,8 +36,19 @@ func _player_connected(id):
 	
 	rpc_id(id, "network_init", security_token)
 	
+func _player_disconnected(id):
+	if id > 1 && character_info.has(id):
+		character_info.erase(id)
+	
 func validate_credentials(id, security_token):
 	return !character_info.has(id) || character_info[id].login_security_token != security_token
+	
+func is_player_connected(player):
+	for character in character_info:
+		if character["player"] == player:
+			return true
+			
+	return false
 	
 remote func login(id, player, password_hash, security_token):
 	if validate_credentials(id, security_token):
@@ -46,6 +58,10 @@ remote func login(id, player, password_hash, security_token):
 	
 	if (player_info.size() <= 0 ||
 		player_info[0].password_hash != password_hash):
+		rpc_id(id, "login_failure")
+		return
+		
+	if is_player_connected(player):
 		rpc_id(id, "login_failure")
 		return
 		
