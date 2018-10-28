@@ -87,9 +87,12 @@ remote func register(id, login, password_hash, email, security_token):
 	
 	rpc_id(id, "registration_failure", "Registration failed")
 	
-remote func connect_character(id, security_token, character):
+remote func connect_character(id, security_token, serialized_character):
 	if validate_credentials(id, security_token):
 		return
+		
+	var character = PlayerCharacter.new()
+	character.deserialize(serialized_character)
 	
 	character_info[id]["character"] = character
 	

@@ -4,6 +4,7 @@ var player_table = "Player"
 var player_character_table = "PlayerCharacter"
 var race_table = "Race"
 var class_table = "CharacterClass"
+var map_table = "Map"
 
 ################
 # Player table #
@@ -43,6 +44,7 @@ func create_player_character_table():
 	query += "player_fk text NOT NULL,";
 	query += "race_fk text NOT NULL,";
 	query += "class_fk text NOT NULL,";
+	query += "respawn_map_fk text NOT NULL DEFAULT 'TestMap',";
 	query += "FOREIGN KEY(player_fk) REFERENCES " + player_table + "(login),";
 	query += "FOREIGN KEY(race_fk) REFERENCES " + player_table + "(name),";
 	query += "FOREIGN KEY(class_fk) REFERENCES " + class_table + "(name)";
@@ -101,3 +103,20 @@ func insert_class():
 	
 func select_class():
 	return "SELECT * FROM " + class_table + " WHERE name = ?;"
+	
+#############
+# Map table #
+#############
+
+func create_map_table():
+	var query
+	
+	query = "CREATE TABLE IF NOT EXISTS " + map_table + " (";
+	query += "name text PRIMARY KEY";
+	query += ");";
+	
+func insert_map():
+	return "INSERT INTO " + map_table + "(name) VALUES(?);"
+	
+func select_map():
+	return "SELECT * FROM " + map_table + " WHERE name = ?;"

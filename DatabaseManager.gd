@@ -35,6 +35,7 @@ func init_tables():
 	print(db.simple_query(DatabaseQueries.create_race_table()))
 	print(db.simple_query(DatabaseQueries.create_class_table()))
 	print(db.simple_query(DatabaseQueries.create_player_character_table()))
+	print(db.simple_query(DatabaseQueries.create_map_table()))
 	
 	# TODO: put these insertions in a separate query
 	db.query(DatabaseQueries.insert_race(), ["Human"], [TEXT])
@@ -68,6 +69,8 @@ func run_tests():
 	print(db.fetch_assoc(DatabaseQueries.select_player(), ["test"], [TEXT]))
 	print(has_player("test"))
 	print(has_email("mail"))
+	
+	print(db.query(DatabaseQueries.insert_map(), ["TestMap"], [TEXT]))
 	
 ##########
 # Player #
