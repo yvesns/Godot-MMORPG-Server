@@ -32,7 +32,10 @@ func _player_connected(id):
 	
 	var security_token = String(OS.get_ticks_msec() ^ randi()).hash()
 	
-	character_info[id] = {login_security_token = security_token}
+	character_info[id] = {
+		login_security_token = security_token,
+		player = ""
+	}
 	
 	rpc_id(id, "network_init", security_token)
 	
@@ -42,13 +45,6 @@ func _player_disconnected(id):
 	
 func validate_credentials(id, security_token):
 	return !character_info.has(id) || character_info[id].login_security_token != security_token
-	
-func is_player_connected(player):
-	for character in character_info:
-		if character["player"] == player:
-			return true
-			
-	return false
 	
 remote func login(id, player, password_hash, security_token):
 	if validate_credentials(id, security_token):
@@ -61,7 +57,7 @@ remote func login(id, player, password_hash, security_token):
 		rpc_id(id, "login_failure")
 		return
 		
-	if is_player_connected(player):
+	if character_info[id]["player"] == player:
 		rpc_id(id, "login_failure")
 		return
 		

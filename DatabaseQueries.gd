@@ -115,6 +115,8 @@ func create_map_table():
 	query += "name text PRIMARY KEY";
 	query += ");";
 	
+	return query
+	
 func insert_map():
 	return "INSERT INTO " + map_table + "(name) VALUES(?);"
 	
