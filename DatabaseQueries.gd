@@ -45,9 +45,14 @@ func create_player_character_table():
 	query += "race_fk text NOT NULL,";
 	query += "class_fk text NOT NULL,";
 	query += "respawn_map_fk text NOT NULL DEFAULT 'TestMap',";
+	query += "logout_map_fk text NOT NULL DEFAULT 'TestMap',";
+	query += "logout_x integer DEFAULT 0,";
+	query += "logout_y integer DEFAULT 0,";
 	query += "FOREIGN KEY(player_fk) REFERENCES " + player_table + "(login),";
 	query += "FOREIGN KEY(race_fk) REFERENCES " + player_table + "(name),";
-	query += "FOREIGN KEY(class_fk) REFERENCES " + class_table + "(name)";
+	query += "FOREIGN KEY(class_fk) REFERENCES " + class_table + "(name),";
+	query += "FOREIGN KEY(respawn_map_fk) REFERENCES " + map_table + "(name),";
+	query += "FOREIGN KEY(logout_map_fk) REFERENCES " + map_table + "(name)";
 	query += ");";
 	
 	return query

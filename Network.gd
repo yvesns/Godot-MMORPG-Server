@@ -44,10 +44,10 @@ func _player_disconnected(id):
 		character_info.erase(id)
 	
 func validate_credentials(id, security_token):
-	return !character_info.has(id) || character_info[id].login_security_token != security_token
+	return !(!character_info.has(id) || character_info[id].login_security_token != security_token)
 	
 remote func login(id, player, password_hash, security_token):
-	if validate_credentials(id, security_token):
+	if !validate_credentials(id, security_token):
 		return
 	
 	var player_info = DatabaseManager.get_player(player)
@@ -66,7 +66,7 @@ remote func login(id, player, password_hash, security_token):
 	rpc_id(id, "login_success", DatabaseManager.get_characters(player))
 	
 remote func register(id, login, password_hash, email, security_token):
-	if validate_credentials(id, security_token):
+	if !validate_credentials(id, security_token):
 		return
 		
 	if DatabaseManager.has_player(login):
@@ -84,18 +84,23 @@ remote func register(id, login, password_hash, email, security_token):
 	rpc_id(id, "registration_failure", "Registration failed")
 	
 remote func connect_character(id, security_token, serialized_character):
-	if validate_credentials(id, security_token):
+	if !validate_credentials(id, security_token):
 		return
 		
 	var character = PlayerCharacter.new()
 	character.deserialize(serialized_character)
 	
+	var map = character.get_logout_map()
+	
+	if !Map.validate_character_position(character):
+		map = character.get_respawn_map()
+	
 	character_info[id]["character"] = character
 	
-	rpc_id(id, "character_connection_success")
+	rpc_id(id, "character_connection_success", map)
 	
 remote func create_character(id, security_token, serialized_character):
-	if validate_credentials(id, security_token):
+	if !validate_credentials(id, security_token):
 		return
 	
 	var character = PlayerCharacter.new()
@@ -115,7 +120,7 @@ remote func create_character(id, security_token, serialized_character):
 	rpc_id(id, "character_creation_success", DatabaseManager.get_characters(player))
 	
 remote func delete_character(id, security_token, password_hash, character_name):
-	if validate_credentials(id, security_token):
+	if !validate_credentials(id, security_token):
 		return
 		
 	var player = character_info[id]["player"]

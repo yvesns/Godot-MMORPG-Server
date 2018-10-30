@@ -1,6 +1,6 @@
 extends Node
 
-var character_name
+var character_name = ""
 
 func _ready():
 	pass

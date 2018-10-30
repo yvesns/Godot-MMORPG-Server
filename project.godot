@@ -20,6 +20,7 @@ Global="*res://Global.gd"
 Network="*res://Network.gd"
 DatabaseManager="*res://DatabaseManager.gd"
 DatabaseQueries="*res://DatabaseQueries.gd"
+Map="*res://Classes/Maps/Map.gd"
 
 [gdnative]
 
