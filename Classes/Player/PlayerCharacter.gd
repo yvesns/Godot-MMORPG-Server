@@ -1,5 +1,6 @@
 extends "res://Classes/Character.gd"
 
+var player = ""
 var character_class = ""
 var character_race = ""
 var respawn_map = ""
@@ -12,12 +13,19 @@ func _ready():
 	
 func init_from_database(database_character):
 	set_name(database_character.name)
+	set_player(database_character.player_fk)
 	set_race(database_character.race_fk)
 	set_class(database_character.class_fk)
 	set_respawn_map(database_character.respawn_map_fk)
 	set_logout_map(database_character.logout_map_fk)
 	set_logout_x(database_character.logout_x)
 	set_logout_y(database_character.logout_y)
+	
+func get_player():
+	return player
+	
+func set_player(player):
+	self.player = player
 	
 func get_class():
 	return character_class

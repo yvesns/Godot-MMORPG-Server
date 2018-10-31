@@ -83,21 +83,32 @@ remote func register(id, login, password_hash, email, security_token):
 	
 	rpc_id(id, "registration_failure", "Registration failed")
 	
-remote func connect_character(id, security_token, serialized_character):
+remote func connect_character(id, security_token, character_name):
 	if !validate_credentials(id, security_token):
 		return
 		
-	var character = PlayerCharacter.new()
-	character.deserialize(serialized_character)
+	var player = character_info[id]["player"]
+	var error_message = Global.validate_character_connection(player, character_name)
+	var character
+	var map
+	var character_position
 	
-	var map = character.get_logout_map()
+	if error_message != null:
+		rpc_id(id, "character_connection_failure", error_message)
+		return
+	
+	character = PlayerCharacter.new()
+	character.init_from_database(DatabaseManager.get_character(character_name))
+	map = character.get_logout_map()
+	character_position = {x = character.get_logout_x(), y = character.get_logout_y()}
 	
 	if !Map.validate_character_position(character):
 		map = character.get_respawn_map()
+		character_position = Map.get_respawn_position(map)
 	
 	character_info[id]["character"] = character
 	
-	rpc_id(id, "character_connection_success", map)
+	rpc_id(id, "character_connection_success", map, character_position)
 	
 remote func create_character(id, security_token, serialized_character):
 	if !validate_credentials(id, security_token):
