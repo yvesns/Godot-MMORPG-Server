@@ -53,7 +53,7 @@ remote func login(id, player, password_hash, security_token):
 	var player_info = DatabaseManager.get_player(player)
 	
 	if (player_info.size() <= 0 ||
-		player_info[0].password_hash != password_hash):
+		player_info.password_hash != password_hash):
 		rpc_id(id, "login_failure")
 		return
 		
@@ -61,7 +61,7 @@ remote func login(id, player, password_hash, security_token):
 		rpc_id(id, "login_failure")
 		return
 		
-	character_info[id]["player"] = player_info[0].login
+	character_info[id]["player"] = player_info.login
 		
 	rpc_id(id, "login_success", DatabaseManager.get_characters(player))
 	
@@ -145,14 +145,14 @@ remote func delete_character(id, security_token, password_hash, character_name):
 	player_info = DatabaseManager.get_player(player)
 	
 	if (player_info.size() <= 0 ||
-		player_info[0].password_hash != password_hash):
+		player_info.password_hash != password_hash):
 		rpc_id(id, "character_deletion_failure", "An error has ocurred")
 		return
 		
 	db_character = DatabaseManager.get_character(character_name)
 	
 	if (db_character.size() <= 0 ||
-	    db_character[0].player_fk != player):
+	    db_character.player_fk != player):
 		rpc_id(id, "character_deletion_failure", "An error has ocurred")
 		return
 	
