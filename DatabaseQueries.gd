@@ -10,6 +10,7 @@ var item_class_table = "ItemClass"
 var item_type_table = "ItemType"
 var item_rarity_table = "ItemRarity"
 var item_option_table = "ItemOption"
+var inventory_table = "Inventory"
 
 ################
 # Player table #
@@ -212,6 +213,22 @@ func create_item_option_table():
 	query += "name text PRIMARY KEY,"
 	query += "min_value integer NOT NULL,"
 	query += "max_value integer NOT NULL"
+	query += ");"
+	
+	return query
+	
+###################
+# Inventory table #
+###################
+
+func create_inventory_table():
+	var query
+	
+	query = "CREATE TABLE IF NOT EXISTS " + inventory_table + " ("
+	query += "player_fk text NOT NULL,"
+	query += "item_fk integer NOT NULL,"
+	query += "inventory_x integer NOT NULL,"
+	query += "inventory_y integer NOT NULL"
 	query += ");"
 	
 	return query

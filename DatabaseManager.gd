@@ -105,16 +105,20 @@ func insert_player_character(player, character):
 	
 	return db.query(DatabaseQueries.insert_player_character(), info, [TEXT, TEXT, TEXT, TEXT])
 	
+func instance_character_items(inventory):
+	pass
+	
 func get_characters(player):
 	return db.fetch_assoc(DatabaseQueries.select_player_characters(), [player], [TEXT])
 	
 func get_character(character_name):
 	var query_result = db.fetch_assoc(DatabaseQueries.select_player_character(), [character_name], [TEXT])
+	var inventory = db.fetch_assoc(DatabaseQueries.select_character_inventory(), [character_name], [TEXT])
 	
-	if query_result.size() > 0:
-		return query_result[0]
-		
-	return null
+	if query_result.size() <= 0:
+		return null
+	
+	return query_result[0]
 	
 func delete_character(character_name):
 	return db.query(DatabaseQueries.delete_player_character(), [character_name], [TEXT])

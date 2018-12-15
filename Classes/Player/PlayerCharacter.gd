@@ -7,6 +7,7 @@ var respawn_map = ""
 var logout_map = ""
 var logout_x = 0
 var logout_y = 0
+var inventory = []
 
 func _ready():
 	pass
