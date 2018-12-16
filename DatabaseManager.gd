@@ -112,8 +112,12 @@ func get_characters(player):
 	return db.fetch_assoc(DatabaseQueries.select_player_characters(), [player], [TEXT])
 	
 func get_character(character_name):
+	var Inventory = preload("res://Classes/Player/Inventory.gd")
 	var query_result = db.fetch_assoc(DatabaseQueries.select_player_character(), [character_name], [TEXT])
-	var inventory = db.fetch_assoc(DatabaseQueries.select_character_inventory(), [character_name], [TEXT])
+	var inventory = Inventory.new()
+	
+	if !inventory.init(character_name):
+		return null
 	
 	if query_result.size() <= 0:
 		return null
@@ -129,3 +133,10 @@ func delete_character(character_name):
 
 func get_class(character_class):
 	return db.fetch_assoc(DatabaseQueries.select_class(), [character_class], [TEXT])
+	
+#############
+# Inventory #
+#############
+
+func get_inventory(character_name):
+	return db.fetch_assoc(DatabaseQueries.select_inventory(), [character_name], [TEXT])

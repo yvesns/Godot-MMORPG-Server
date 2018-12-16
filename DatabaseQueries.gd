@@ -54,7 +54,6 @@ func create_player_character_table():
 	query += "logout_map_fk text NOT NULL DEFAULT 'TestMap',"
 	query += "logout_x integer DEFAULT 0,"
 	query += "logout_y integer DEFAULT 0,"
-	query += "inventory text NOT NULL," #JSON string
 	query += "FOREIGN KEY(player_fk) REFERENCES " + player_table + "(login),"
 	query += "FOREIGN KEY(race_fk) REFERENCES " + player_table + "(name),"
 	query += "FOREIGN KEY(class_fk) REFERENCES " + class_table + "(name),"
@@ -232,3 +231,6 @@ func create_inventory_table():
 	query += ");"
 	
 	return query
+	
+func select_inventory():
+	return "SELECT * FROM " + inventory_table + " WHERE player_fk = ?;"
