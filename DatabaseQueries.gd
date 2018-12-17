@@ -157,6 +157,9 @@ func create_item_table():
 	
 	return query
 	
+func select_item():
+	return "SELECT * FROM " + item_table + " WHERE item_id = ?;"
+	
 ####################
 # Item class table #
 ####################
