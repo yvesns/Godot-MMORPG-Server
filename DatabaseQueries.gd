@@ -12,6 +12,15 @@ var item_rarity_table = "ItemRarity"
 var item_option_table = "ItemOption"
 var inventory_table = "Inventory"
 
+func get_table_list():
+	return [
+		race_table,
+		class_table
+	]
+	
+func insert(table_name):
+	return funcref(self, "insert_" + table_name.to_lower()).call_func()
+
 ################
 # Player table #
 ################

@@ -31,24 +31,37 @@ func init_database():
 	run_tests()
 	
 func init_tables():
+	var table_query
+	var data_types
+	
 	print(db.simple_query(DatabaseQueries.create_player_table()))
 	print(db.simple_query(DatabaseQueries.create_race_table()))
 	print(db.simple_query(DatabaseQueries.create_class_table()))
 	print(db.simple_query(DatabaseQueries.create_player_character_table()))
 	print(db.simple_query(DatabaseQueries.create_map_table()))
 	
-	# TODO: put these insertions in a separate query
-	db.query(DatabaseQueries.insert_race(), ["Human"], [TEXT])
-	db.query(DatabaseQueries.insert_race(), ["Vampire"], [TEXT])
+	#db.query(DatabaseQueries.insert_race(), ["Human"], [TEXT])
+	#db.query(DatabaseQueries.insert_race(), ["Vampire"], [TEXT])
 	
-	db.query(DatabaseQueries.insert_class(), ["CommonHuman", "Human"], [TEXT, TEXT])
-	db.query(DatabaseQueries.insert_class(), ["Fighter", "Human"], [TEXT, TEXT])
-	db.query(DatabaseQueries.insert_class(), ["Mage", "Human"], [TEXT, TEXT])
-	db.query(DatabaseQueries.insert_class(), ["Healer", "Human"], [TEXT, TEXT])
+	#db.query(DatabaseQueries.insert_class(), ["CommonHuman", "Human"], [TEXT, TEXT])
+	#db.query(DatabaseQueries.insert_class(), ["Fighter", "Human"], [TEXT, TEXT])
+	#db.query(DatabaseQueries.insert_class(), ["Mage", "Human"], [TEXT, TEXT])
+	#db.query(DatabaseQueries.insert_class(), ["Healer", "Human"], [TEXT, TEXT])
 	
-	db.query(DatabaseQueries.insert_class(), ["CommonVampire", "Vampire"], [TEXT, TEXT])
-	db.query(DatabaseQueries.insert_class(), ["Blood Seeker", "Vampire"], [TEXT, TEXT])
-	db.query(DatabaseQueries.insert_class(), ["Strigoi", "Vampire"], [TEXT, TEXT])
+	#db.query(DatabaseQueries.insert_class(), ["CommonVampire", "Vampire"], [TEXT, TEXT])
+	#db.query(DatabaseQueries.insert_class(), ["Blood Seeker", "Vampire"], [TEXT, TEXT])
+	#db.query(DatabaseQueries.insert_class(), ["Strigoi", "Vampire"], [TEXT, TEXT])
+	
+	for table in DatabaseQueries.get_table_list():
+		data_types = DatabaseInsertData.get_types(table)
+		
+		if data_types == null:
+			continue
+			
+		table_query = DatabaseQueries.insert(table)
+		
+		for data in DatabaseInsertData.get_data(table):
+			db.query(table_query, data, data_types)
 	
 func run_tests():
 	var character_class = preload("res://Classes/Player/PlayerCharacter.gd")
