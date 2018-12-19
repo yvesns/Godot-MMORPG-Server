@@ -19,11 +19,34 @@ var class_data = [
 	["Strigoi", "Vampire"]
 ]
 
+var itemclass_data_types = [TEXT]
+var itemclass_data = [
+	["Helmet"],
+	["Weapon"],
+	["Armour"],
+	["Ring"],
+	["Amulet"],
+	["Boots"],
+	["Gloves"],
+	["Belt"],
+	["Shield"]
+]
+
 func _ready():
 	pass
 	
 func get_types(table_name):
-	return get(table_name.to_lower() + "_data_types")
+	var types = get(table_name.to_lower() + "_data_types")
+	
+	if types != null:
+		types = types.duplicate()
+	
+	return types
 	
 func get_data(table_name):
-	return get(table_name.to_lower() + "_data")
+	var data = get(table_name.to_lower() + "_data")
+	
+	if data != null:
+		data = data.duplicate()
+	
+	return data

@@ -40,18 +40,6 @@ func init_tables():
 	print(db.simple_query(DatabaseQueries.create_player_character_table()))
 	print(db.simple_query(DatabaseQueries.create_map_table()))
 	
-	#db.query(DatabaseQueries.insert_race(), ["Human"], [TEXT])
-	#db.query(DatabaseQueries.insert_race(), ["Vampire"], [TEXT])
-	
-	#db.query(DatabaseQueries.insert_class(), ["CommonHuman", "Human"], [TEXT, TEXT])
-	#db.query(DatabaseQueries.insert_class(), ["Fighter", "Human"], [TEXT, TEXT])
-	#db.query(DatabaseQueries.insert_class(), ["Mage", "Human"], [TEXT, TEXT])
-	#db.query(DatabaseQueries.insert_class(), ["Healer", "Human"], [TEXT, TEXT])
-	
-	#db.query(DatabaseQueries.insert_class(), ["CommonVampire", "Vampire"], [TEXT, TEXT])
-	#db.query(DatabaseQueries.insert_class(), ["Blood Seeker", "Vampire"], [TEXT, TEXT])
-	#db.query(DatabaseQueries.insert_class(), ["Strigoi", "Vampire"], [TEXT, TEXT])
-	
 	for table in DatabaseQueries.get_table_list():
 		data_types = DatabaseInsertData.get_types(table)
 		
@@ -61,7 +49,7 @@ func init_tables():
 		table_query = DatabaseQueries.insert(table)
 		
 		for data in DatabaseInsertData.get_data(table):
-			db.query(table_query, data, data_types)
+			print(db.query(table_query, data, data_types.duplicate()))
 	
 func run_tests():
 	var character_class = preload("res://Classes/Player/PlayerCharacter.gd")
