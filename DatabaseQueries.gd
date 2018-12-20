@@ -156,14 +156,12 @@ func create_item_table():
 	query += "item_class_fk text NOT NULL,"
 	query += "item_type_fk text NOT NULL,"
 	query += "item_rarity_fk text NOT NULL,"
-	query += "race_fk text NOT NULL,"
 	query += "item_options text NOT NULL," #JSON string
 	query += "inventory_width integer NOT NULL,"
 	query += "inventory_height integer NOT NULL,"
 	query += "FOREIGN KEY(item_class_fk) REFERENCES " + item_class_table + "(name),";
 	query += "FOREIGN KEY(item_type_fk) REFERENCES " + item_type_table + "(name),";
-	query += "FOREIGN KEY(item_rarity_fk) REFERENCES " + item_rarity_table + "(name),";
-	query += "FOREIGN KEY(race_fk) REFERENCES " + race_table + "(name)";
+	query += "FOREIGN KEY(item_rarity_fk) REFERENCES " + item_rarity_table + "(name)";
 	query += ");"
 	
 	return query
@@ -194,10 +192,12 @@ func create_item_type_table():
 	query = "CREATE TABLE IF NOT EXISTS " + item_type_table + " ("
 	query += "name text PRIMARY KEY,"
 	query += "item_class_fk text NOT NULL,"
+	query += "race_fk text NOT NULL,"
 	query += "min_damage integer NOT NULL,"
 	query += "max_damage integer NOT NULL,"
 	query += "armour integer NOT NULL,"
-	query += "FOREIGN KEY(item_class_fk) REFERENCES " + item_class_table + "(name)";
+	query += "FOREIGN KEY(item_class_fk) REFERENCES " + item_class_table + "(name),";
+	query += "FOREIGN KEY(race_fk) REFERENCES " + race_table + "(name)";
 	query += ");"
 	
 	return query
