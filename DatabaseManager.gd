@@ -1,11 +1,11 @@
 extends Node
 
-# TODO
-# 1. Create a separate query to initialize the tables
-
 var SQLite
 var db
 var db_file = "res://database.sql"
+
+var Inventory = preload("res://Classes/Player/Inventory.gd")
+var Item = preload("res://Classes/Item/Item.gd")
 
 enum BindType { DOUBLE, INT, TEXT }
 
@@ -64,6 +64,8 @@ func run_tests():
 	char2.set_race("Vampire")
 	char2.set_class("Blood Seeker")
 	
+	print(insert_item())
+	
 	print(insert_player("test", "test".hash(), "mail"))
 	print(insert_player_character("test", char1))
 	print(insert_player_character("test", char2))
@@ -106,14 +108,10 @@ func insert_player_character(player, character):
 	
 	return db.query(DatabaseQueries.insert_player_character(), info, [TEXT, TEXT, TEXT, TEXT])
 	
-func instance_character_items(inventory):
-	pass
-	
 func get_characters(player):
 	return db.fetch_assoc(DatabaseQueries.select_player_characters(), [player], [TEXT])
 	
 func get_character(character_name):
-	var Inventory = preload("res://Classes/Player/Inventory.gd")
 	var query_result = db.fetch_assoc(DatabaseQueries.select_player_character(), [character_name], [TEXT])
 	var inventory = Inventory.new()
 	var character
@@ -145,6 +143,13 @@ func get_class(character_class):
 
 func get_item(item_id):
 	return db.fetch_assoc(DatabaseQueries.select_item(), [item_id], [INT])
+	
+func insert_item(item):
+	var db_item = Item.new()
+	
+	db_item.init(item)
+	
+	return db.query(DatabaseQueries.insert_item(), db_item.to_database_array(), DatabaseInsertData.get_types("item"))
 	
 #############
 # Inventory #

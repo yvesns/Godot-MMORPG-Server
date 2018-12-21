@@ -20,6 +20,8 @@ var class_data = [
 	["Strigoi", "Vampire"]
 ]
 
+var item_data_types = [TEXT, TEXT, TEXT, TEXT, TEXT, INT, INT]
+
 var itemclass_data_types = [TEXT]
 var itemclass_data = [
 	["Helmet"],

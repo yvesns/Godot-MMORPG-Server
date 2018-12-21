@@ -169,6 +169,21 @@ func create_item_table():
 func select_item():
 	return "SELECT * FROM " + item_table + " WHERE item_id = ?;"
 	
+func insert_item():
+	var query = "INSERT INTO " + item_table + "("
+	
+	query += "name,"
+	query += "item_class_fk,"
+	query += "item_type_fk,"
+	query += "item_rarity_fk,"
+	query += "item_options,"
+	query += "inventory_width,"
+	query += "inventory_height"
+	
+	query += ") VALUES(?,?,?,?,?,?,?);"
+	
+	return query
+	
 ####################
 # Item class table #
 ####################
@@ -250,3 +265,6 @@ func create_inventory_table():
 	
 func select_inventory():
 	return "SELECT * FROM " + inventory_table + " WHERE player_fk = ?;"
+	
+func insert_inventory_item():
+	return "INSERT INTO " + inventory_table + "(player_fk, item_fk, inventory_x, inventory_y) VALUES(?,?,?,?);"
