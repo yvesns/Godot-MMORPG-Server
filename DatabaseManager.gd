@@ -64,7 +64,9 @@ func run_tests():
 	char2.set_race("Vampire")
 	char2.set_class("Blood Seeker")
 	
-	print(insert_item())
+	var item = Item.new()
+	
+	#print(insert_item())
 	
 	print(insert_player("test", "test".hash(), "mail"))
 	print(insert_player_character("test", char1))
@@ -147,7 +149,7 @@ func get_item(item_id):
 func insert_item(item):
 	var db_item = Item.new()
 	
-	db_item.init(item)
+	db_item.deserialize(item)
 	
 	return db.query(DatabaseQueries.insert_item(), db_item.to_database_array(), DatabaseInsertData.get_types("item"))
 	

@@ -20,12 +20,6 @@ func init():
 func is_stackable():
 	return false
 	
-func get_texture():
-	return texture
-	
-func set_texture(texture):
-	self.texture = texture
-	
 func get_id():
 	return item_id
 	
@@ -94,8 +88,6 @@ func get_slot_count():
 	
 func serialize():
 	return {
-		texture = self.texture,
-		state = self.state,
 		item_id = self.item_id,
 		item_name = self.item_name,
 		item_class = self.item_class,
@@ -109,8 +101,6 @@ func serialize():
 	}
 	
 func deserialize(item):
-	set_texture(item.texture)
-	set_tate(item.state)
 	set_id(item.item_id)
 	set_name(item.item_name)
 	set_class(item.item_class)
@@ -119,3 +109,14 @@ func deserialize(item):
 	set_options(item.item_options)
 	set_inventory_width(item.inventory_slot_width)
 	set_inventory_height(item.inventory_slot_height)
+	
+func to_database_array():
+	return [
+		item_name,
+		item_class,
+		item_type,
+		item_rarity,
+		item_options,
+		inventory_slot_width,
+		inventory_slot_height
+	]

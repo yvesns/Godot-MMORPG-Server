@@ -1,21 +1,25 @@
 extends Node
 
 var player_table = "Player"
-var player_character_table = "PlayerCharacter"
+var player_character_table = "Player_Character"
 var race_table = "Race"
-var class_table = "CharacterClass"
+var class_table = "Character_Class"
 var map_table = "Map"
 var item_table = "Item"
-var item_class_table = "ItemClass"
-var item_type_table = "ItemType"
-var item_rarity_table = "ItemRarity"
-var item_option_table = "ItemOption"
+var item_class_table = "Item_Class"
+var item_type_table = "Item_Type"
+var item_rarity_table = "Item_Rarity"
+var item_option_table = "Item_Option"
 var inventory_table = "Inventory"
 
 func get_table_list():
 	return [
 		race_table,
-		class_table
+		class_table,
+		item_class_table,
+		item_type_table,
+		item_rarity_table,
+		item_option_table
 	]
 	
 func insert(table_name):
@@ -157,8 +161,6 @@ func create_item_table():
 	query += "item_type_fk text NOT NULL,"
 	query += "item_rarity_fk text NOT NULL,"
 	query += "item_options text NOT NULL," #JSON string
-	query += "inventory_width integer NOT NULL,"
-	query += "inventory_height integer NOT NULL,"
 	query += "FOREIGN KEY(item_class_fk) REFERENCES " + item_class_table + "(name),";
 	query += "FOREIGN KEY(item_type_fk) REFERENCES " + item_type_table + "(name),";
 	query += "FOREIGN KEY(item_rarity_fk) REFERENCES " + item_rarity_table + "(name)";
@@ -176,11 +178,9 @@ func insert_item():
 	query += "item_class_fk,"
 	query += "item_type_fk,"
 	query += "item_rarity_fk,"
-	query += "item_options,"
-	query += "inventory_width,"
-	query += "inventory_height"
+	query += "item_options"
 	
-	query += ") VALUES(?,?,?,?,?,?,?);"
+	query += ") VALUES(?,?,?,?,?);"
 	
 	return query
 	
@@ -197,6 +197,9 @@ func create_item_class_table():
 	
 	return query
 	
+func insert_item_class():
+	return "INSERT INTO " + item_class_table + "(name) VALUES(?);"
+	
 ###################
 # Item type table #
 ###################
@@ -211,9 +214,27 @@ func create_item_type_table():
 	query += "min_damage integer NOT NULL,"
 	query += "max_damage integer NOT NULL,"
 	query += "armour integer NOT NULL,"
+	query += "inventory_width integer NOT NULL,"
+	query += "inventory_height integer NOT NULL,"
 	query += "FOREIGN KEY(item_class_fk) REFERENCES " + item_class_table + "(name),";
 	query += "FOREIGN KEY(race_fk) REFERENCES " + race_table + "(name)";
 	query += ");"
+	
+	return query
+	
+func insert_item_type():
+	var query = "INSERT INTO " + item_type_table + "("
+	
+	query += "name,"
+	query += "item_class_fk,"
+	query += "race_fk,"
+	query += "min_damage,"
+	query += "max_damage,"
+	query += "armour,"
+	query += "inventory_width,"
+	query += "inventory_height"
+	
+	query += ") VALUES(?,?,?,?,?);"
 	
 	return query
 	
@@ -230,6 +251,9 @@ func create_item_rarity_table():
 	
 	return query
 	
+func insert_item_rarity():
+	return "INSERT INTO " + item_rarity_table + "(name) VALUES(?);"
+	
 #####################
 # Item option table #
 #####################
@@ -244,6 +268,9 @@ func create_item_option_table():
 	query += ");"
 	
 	return query
+	
+func insert_item_option():
+	return "INSERT INTO " + item_option_table + "(name, min_value, max_value) VALUES(?,?,?);"
 	
 ###################
 # Inventory table #

@@ -20,7 +20,7 @@ var class_data = [
 	["Strigoi", "Vampire"]
 ]
 
-var item_data_types = [TEXT, TEXT, TEXT, TEXT, TEXT, INT, INT]
+var item_data_types = [TEXT, TEXT, TEXT, TEXT, TEXT]
 
 var itemclass_data_types = [TEXT]
 var itemclass_data = [
@@ -35,16 +35,16 @@ var itemclass_data = [
 	["Shield"]
 ]
 
-var itemtype_data_types = [TEXT, TEXT, TEXT, INT, INT, INT]
+var itemtype_data_types = [TEXT, TEXT, TEXT, INT, INT, INT, INT, INT]
 var itemtype_data = [
-	["Kettle Helmet", "Helmet", "Human", 0, 0, 10],
-	["Sallet", "Helmet", "Human", 0, 0, 20],
-	["Barbuta", "Helmet", "Human", 0, 0, 30],
-	["Close Helmet", "Helmet", "Human", 0, 0, 40],
-	["Great Helmet", "Helmet", "Human", 0, 0, 50],
-	["Leather Armour", "Armour", "Human", 0, 0, 50],
-	["Long Sword", "Weapon", "Human", 5, 10, 0],
-	["Round Shield", "Shield", "Human", 0, 0, 50]
+	["Kettle Helmet", "Helmet", "Human", 0, 0, 10, 2, 2],
+	["Sallet", "Helmet", "Human", 0, 0, 20, 2, 2],
+	["Barbuta", "Helmet", "Human", 0, 0, 30, 2, 2],
+	["Close Helmet", "Helmet", "Human", 0, 0, 40, 2, 2],
+	["Great Helmet", "Helmet", "Human", 0, 0, 50, 2, 2],
+	["Leather Armour", "Armour", "Human", 0, 0, 50, 2, 3],
+	["Long Sword", "Weapon", "Human", 5, 10, 0, 1, 3],
+	["Round Shield", "Shield", "Human", 0, 0, 50, 2, 2]
 ]
 
 var itemrarity_data_types = [TEXT]
