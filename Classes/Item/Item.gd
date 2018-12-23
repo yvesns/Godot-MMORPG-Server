@@ -5,7 +5,7 @@ var item_name
 var item_class
 var item_type
 var item_rarity
-var item_options
+var item_options = {}
 var inventory_slot_width = 0
 var inventory_slot_height = 0
 var inventory_x
@@ -53,8 +53,8 @@ func set_rarity(item_rarity):
 func get_options():
 	return item_options
 
-func set_options(json_item_options):
-	item_options = JSON.parse(json_item_options).result
+func set_options(item_options):
+	self.item_options = item_options
 	
 func get_inventory_width():
 	return inventory_slot_width
@@ -113,10 +113,7 @@ func deserialize(item):
 func to_database_array():
 	return [
 		item_name,
-		item_class,
 		item_type,
 		item_rarity,
-		item_options,
-		inventory_slot_width,
-		inventory_slot_height
+		JSON.print(item_options)
 	]

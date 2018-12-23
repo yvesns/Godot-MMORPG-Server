@@ -14,13 +14,21 @@ var inventory_table = "Inventory"
 
 func get_table_list():
 	return [
+		player_table,
+		map_table,
 		race_table,
 		class_table,
+		player_character_table,
 		item_class_table,
 		item_type_table,
 		item_rarity_table,
-		item_option_table
+		item_option_table,
+		item_table,
+		inventory_table
 	]
+	
+func create(table_name):
+	return funcref(self, "create_" + table_name.to_lower() + "_table").call_func()
 	
 func insert(table_name):
 	return funcref(self, "insert_" + table_name.to_lower()).call_func()
@@ -108,10 +116,10 @@ func select_race():
 	return "SELECT * FROM " + race_table + " WHERE name = ?;"
 	
 ###############
-# Class table #
+# Character class table #
 ###############
 
-func create_class_table():
+func create_character_class_table():
 	var query
 	
 	query = "CREATE TABLE IF NOT EXISTS " + class_table + " ("
@@ -122,10 +130,10 @@ func create_class_table():
 	
 	return query
 	
-func insert_class():
+func insert_character_class():
 	return "INSERT INTO " + class_table + "(name, race_fk) VALUES(?,?);"
 	
-func select_class():
+func select_character_class():
 	return "SELECT * FROM " + class_table + " WHERE name = ?;"
 	
 #############
@@ -157,11 +165,9 @@ func create_item_table():
 	query = "CREATE TABLE IF NOT EXISTS " + item_table + " ("
 	query += "item_id integer PRIMARY KEY,"
 	query += "name text NOT NULL,"
-	query += "item_class_fk text NOT NULL,"
 	query += "item_type_fk text NOT NULL,"
 	query += "item_rarity_fk text NOT NULL,"
 	query += "item_options text NOT NULL," #JSON string
-	query += "FOREIGN KEY(item_class_fk) REFERENCES " + item_class_table + "(name),";
 	query += "FOREIGN KEY(item_type_fk) REFERENCES " + item_type_table + "(name),";
 	query += "FOREIGN KEY(item_rarity_fk) REFERENCES " + item_rarity_table + "(name)";
 	query += ");"
@@ -175,12 +181,11 @@ func insert_item():
 	var query = "INSERT INTO " + item_table + "("
 	
 	query += "name,"
-	query += "item_class_fk,"
 	query += "item_type_fk,"
 	query += "item_rarity_fk,"
 	query += "item_options"
 	
-	query += ") VALUES(?,?,?,?,?);"
+	query += ") VALUES(?,?,?,?);"
 	
 	return query
 	

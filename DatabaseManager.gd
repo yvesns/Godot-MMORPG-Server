@@ -34,11 +34,14 @@ func init_tables():
 	var table_query
 	var data_types
 	
-	print(db.simple_query(DatabaseQueries.create_player_table()))
-	print(db.simple_query(DatabaseQueries.create_race_table()))
-	print(db.simple_query(DatabaseQueries.create_class_table()))
-	print(db.simple_query(DatabaseQueries.create_player_character_table()))
-	print(db.simple_query(DatabaseQueries.create_map_table()))
+	#print(db.simple_query(DatabaseQueries.create_player_table()))
+	#print(db.simple_query(DatabaseQueries.create_race_table()))
+	#print(db.simple_query(DatabaseQueries.create_class_table()))
+	#print(db.simple_query(DatabaseQueries.create_player_character_table()))
+	#print(db.simple_query(DatabaseQueries.create_map_table()))
+	
+	for table in DatabaseQueries.get_table_list():
+		print(db.simple_query(DatabaseQueries.create(table)))
 	
 	for table in DatabaseQueries.get_table_list():
 		data_types = DatabaseInsertData.get_types(table)
@@ -52,6 +55,7 @@ func init_tables():
 			print(db.query(table_query, data, data_types.duplicate()))
 	
 func run_tests():
+	# Insert player and char
 	var character_class = preload("res://Classes/Player/PlayerCharacter.gd")
 	
 	var char1 = character_class.new()
@@ -64,10 +68,6 @@ func run_tests():
 	char2.set_race("Vampire")
 	char2.set_class("Blood Seeker")
 	
-	var item = Item.new()
-	
-	#print(insert_item())
-	
 	print(insert_player("test", "test".hash(), "mail"))
 	print(insert_player_character("test", char1))
 	print(insert_player_character("test", char2))
@@ -75,7 +75,20 @@ func run_tests():
 	print(has_player("test"))
 	print(has_email("mail"))
 	
+	# Insert map
 	print(db.query(DatabaseQueries.insert_map(), ["TestMap"], [TEXT]))
+	
+	# Insert item
+	var item = Item.new()
+	var item_options = {}
+	item_options["Increased damage"] = 5
+
+	item.set_name("Test helmet")
+	item.set_type("Barbuta")
+	item.set_rarity("Normal")
+	item.set_options(item_options)
+	
+	print(insert_item(item))
 	
 ##########
 # Player #
