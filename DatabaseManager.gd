@@ -33,12 +33,7 @@ func init_database():
 func init_tables():
 	var table_query
 	var data_types
-	
-	#print(db.simple_query(DatabaseQueries.create_player_table()))
-	#print(db.simple_query(DatabaseQueries.create_race_table()))
-	#print(db.simple_query(DatabaseQueries.create_class_table()))
-	#print(db.simple_query(DatabaseQueries.create_player_character_table()))
-	#print(db.simple_query(DatabaseQueries.create_map_table()))
+	var data
 	
 	for table in DatabaseQueries.get_table_list():
 		print(db.simple_query(DatabaseQueries.create(table)))
@@ -48,11 +43,16 @@ func init_tables():
 		
 		if data_types == null:
 			continue
+		
+		data = DatabaseInsertData.get_data(table)
+		
+		if data == null or data.size() <= 0:
+			continue
 			
 		table_query = DatabaseQueries.insert(table)
 		
-		for data in DatabaseInsertData.get_data(table):
-			print(db.query(table_query, data, data_types.duplicate()))
+		for row in data:
+			print(db.query(table_query, row, data_types.duplicate()))
 	
 func run_tests():
 	# Insert player and char
@@ -89,6 +89,11 @@ func run_tests():
 	item.set_options(item_options)
 	
 	print(insert_item(item))
+	
+	# Insert inventory item
+	var item_query = "SELECT * FROM " + DatabaseQueries.item_table + ";"
+	var db_item = db.fetch_assoc("", [item_id], [INT])[0]
+	item.init_from_database(db_item)
 	
 ##########
 # Player #
@@ -160,11 +165,7 @@ func get_item(item_id):
 	return db.fetch_assoc(DatabaseQueries.select_item(), [item_id], [INT])
 	
 func insert_item(item):
-	var db_item = Item.new()
-	
-	db_item.deserialize(item)
-	
-	return db.query(DatabaseQueries.insert_item(), db_item.to_database_array(), DatabaseInsertData.get_types("item"))
+	return db.query(DatabaseQueries.insert_item(), item.to_database_array(), DatabaseInsertData.get_types("item"))
 	
 #############
 # Inventory #
@@ -172,3 +173,9 @@ func insert_item(item):
 
 func get_inventory(character_name):
 	return db.fetch_assoc(DatabaseQueries.select_inventory(), [character_name], [TEXT])
+	
+func insert_inventory_item(player, item):
+	var types = DatabaseInsertData.get_types(DatabaseQueries.inventory_table)
+	var row = [player.get_id(), item.get_id(), item.get_inventory_x(), item.get_inventory_y()]
+	
+	return db.fetch_assoc(DatabaseQueries.insert_inventory_item(), row, types)

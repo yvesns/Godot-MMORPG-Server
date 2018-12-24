@@ -110,6 +110,9 @@ func deserialize(item):
 	set_inventory_width(item.inventory_slot_width)
 	set_inventory_height(item.inventory_slot_height)
 	
+func init_from_database(db_item):
+	pass
+	
 func to_database_array():
 	return [
 		item_name,

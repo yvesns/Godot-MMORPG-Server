@@ -115,9 +115,9 @@ func insert_race():
 func select_race():
 	return "SELECT * FROM " + race_table + " WHERE name = ?;"
 	
-###############
+#########################
 # Character class table #
-###############
+#########################
 
 func create_character_class_table():
 	var query

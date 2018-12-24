@@ -2,10 +2,10 @@ extends Node
 	
 enum BindType { DOUBLE, INT, TEXT }
 	
-var player_data_types = []
+var player_data_types = [TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, INT, INT]
 var player_data = []
 
-var map_data_types = []
+var map_data_types = [TEXT]
 var map_data = []
 
 var race_data_types = [TEXT]
@@ -26,7 +26,7 @@ var class_data = [
 	["Strigoi", "Vampire"]
 ]
 	
-var player_character_data_types = []
+var player_character_data_types = [TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, INT, INT]
 var player_character_data = []
 
 var itemclass_data_types = [TEXT]
@@ -71,7 +71,7 @@ var itemoption_data = [
 var item_data_types = [TEXT, TEXT, TEXT, TEXT]
 var item_data = []
 
-var inventory_data_types = []
+var inventory_data_types = [TEXT, INT, INT, INT]
 var inventory_data = []
 
 func _ready():
