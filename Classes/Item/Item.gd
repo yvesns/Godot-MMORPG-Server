@@ -1,6 +1,6 @@
 extends Node
 
-var item_id
+var item_id = null
 var item_name
 var item_class
 var item_type
@@ -8,8 +8,8 @@ var item_rarity
 var item_options = {}
 var inventory_slot_width = 0
 var inventory_slot_height = 0
-var inventory_x
-var inventory_y
+var inventory_x = 3
+var inventory_y = 2
 
 func _ready():
 	pass
@@ -111,7 +111,11 @@ func deserialize(item):
 	set_inventory_height(item.inventory_slot_height)
 	
 func init_from_database(db_item):
-	pass
+	set_id(db_item.item_id)
+	set_name(db_item.name)
+	set_type(db_item.item_type_fk)
+	set_rarity(db_item.item_rarity_fk)
+	set_options(db_item.item_options)
 	
 func to_database_array():
 	return [

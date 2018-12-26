@@ -92,8 +92,9 @@ func run_tests():
 	
 	# Insert inventory item
 	var item_query = "SELECT * FROM " + DatabaseQueries.item_table + ";"
-	var db_item = db.fetch_assoc("", [item_id], [INT])[0]
+	var db_item = db.fetch_assoc(item_query, [], [])[0]
 	item.init_from_database(db_item)
+	print(insert_inventory_item(char1, item))
 	
 ##########
 # Player #
@@ -174,8 +175,8 @@ func insert_item(item):
 func get_inventory(character_name):
 	return db.fetch_assoc(DatabaseQueries.select_inventory(), [character_name], [TEXT])
 	
-func insert_inventory_item(player, item):
+func insert_inventory_item(character, item):
 	var types = DatabaseInsertData.get_types(DatabaseQueries.inventory_table)
-	var row = [player.get_id(), item.get_id(), item.get_inventory_x(), item.get_inventory_y()]
+	var row = [character.get_name(), item.get_id(), item.get_inventory_x(), item.get_inventory_y()]
 	
 	return db.fetch_assoc(DatabaseQueries.insert_inventory_item(), row, types)
