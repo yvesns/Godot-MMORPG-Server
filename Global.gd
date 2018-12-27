@@ -5,6 +5,8 @@ var maximum_character_name_length = 20
 var character_name_regex = RegEx.new()
 
 var PlayerCharacter = preload("res://Classes/Player/PlayerCharacter.gd")
+var Inventory = preload("res://Classes/Player/Inventory.gd")
+var Item = preload("res://Classes/Item/Item.gd")
 
 func _ready():
 	character_name_regex.compile("[^A-Za-z0-9]")

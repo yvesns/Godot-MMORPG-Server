@@ -12,6 +12,18 @@ var inventory = []
 func _ready():
 	pass
 	
+func build_character(character_name):
+	var db_character = DatabaseManager.get_character(character_name)
+	var character = Global.PlayerCharacter.new()
+	
+	if db_character.size() <= 0:
+		return null
+		
+	if !init_from_database(db_character):
+		return null
+		
+	return character
+	
 func init_from_database(database_character):
 	set_name(database_character.name)
 	set_player(database_character.player_fk)
@@ -21,6 +33,20 @@ func init_from_database(database_character):
 	set_logout_map(database_character.logout_map_fk)
 	set_logout_x(database_character.logout_x)
 	set_logout_y(database_character.logout_y)
+	
+	#var inventory = Global.Inventory.new()
+	#var character
+	
+	#if !inventory.init(character_name):
+	#	return null
+	
+	#if query_result.size() <= 0:
+	#	return null
+	
+	#character = query_result[0]
+	#character.inventory = inventory.get_items()
+	
+	#return query_result[0]
 	
 func get_player():
 	return player

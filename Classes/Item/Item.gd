@@ -14,9 +14,6 @@ var inventory_y = 2
 func _ready():
 	pass
 	
-func init():
-	pass
-	
 func is_stackable():
 	return false
 	

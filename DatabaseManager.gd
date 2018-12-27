@@ -4,9 +4,6 @@ var SQLite
 var db
 var db_file = "res://database.sql"
 
-var Inventory = preload("res://Classes/Player/Inventory.gd")
-var Item = preload("res://Classes/Item/Item.gd")
-
 enum BindType { DOUBLE, INT, TEXT }
 
 func _ready():
@@ -79,7 +76,7 @@ func run_tests():
 	print(db.query(DatabaseQueries.insert_map(), ["TestMap"], [TEXT]))
 	
 	# Insert item
-	var item = Item.new()
+	var item = Global.Item.new()
 	var item_options = {}
 	item_options["Increased damage"] = 5
 
@@ -95,6 +92,7 @@ func run_tests():
 	var db_item = db.fetch_assoc(item_query, [], [])[0]
 	item.init_from_database(db_item)
 	print(insert_inventory_item(char1, item))
+	print(get_inventory(char1)[0])
 	
 ##########
 # Player #
@@ -133,20 +131,18 @@ func get_characters(player):
 	return db.fetch_assoc(DatabaseQueries.select_player_characters(), [player], [TEXT])
 	
 func get_character(character_name):
-	var query_result = db.fetch_assoc(DatabaseQueries.select_player_character(), [character_name], [TEXT])
-	var inventory = Inventory.new()
-	var character
+	return db.fetch_assoc(DatabaseQueries.select_player_character(), [character_name], [TEXT])
 	
-	if !inventory.init(character_name):
-		return null
+func build_character_list(player):
+	var characters = get_characters(player)
 	
-	if query_result.size() <= 0:
-		return null
-	
-	character = query_result[0]
-	character.inventory = inventory.get_items()
-	
-	return query_result[0]
+	if characters.size() <= 0:
+		return []
+		
+	for i in range(characters.size):
+		characters[i] = Global.PlayerCharacter.new().init_from_database(characters[i])
+		
+	return characters
 	
 func delete_character(character_name):
 	return db.query(DatabaseQueries.delete_player_character(), [character_name], [TEXT])
@@ -172,8 +168,8 @@ func insert_item(item):
 # Inventory #
 #############
 
-func get_inventory(character_name):
-	return db.fetch_assoc(DatabaseQueries.select_inventory(), [character_name], [TEXT])
+func get_inventory(character):
+	return db.fetch_assoc(DatabaseQueries.select_inventory(), [character.get_name()], [TEXT])
 	
 func insert_inventory_item(character, item):
 	var types = DatabaseInsertData.get_types(DatabaseQueries.inventory_table)
