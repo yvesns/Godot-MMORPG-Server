@@ -1,15 +1,30 @@
 extends Node
 
+# Item table attributes
 var item_id = null
 var item_name
-var item_class
 var item_type
 var item_rarity
 var item_options = {}
-var inventory_slot_width = 0
-var inventory_slot_height = 0
+#
+
+#ItemType table attributes
+var item_class
+var race
+var min_damage
+var max_damage
+var armour
+var inventory_width = 0
+var inventory_height = 0
+#
+
+# Inventory table attributes
 var inventory_x = 3
 var inventory_y = 2
+var owner_player
+#
+
+var is_valid = true
 
 func _ready():
 	pass
@@ -82,6 +97,21 @@ func get_height():
 	
 func get_slot_count():
 	return inventory_slot_width * inventory_slot_height
+	
+func get_owner():
+	return owner_player
+	
+func set_owner(player):
+	owner_player = player
+	
+func build_item(item_id):
+	var db_item = DatabaseManager.get_item(item_id)
+	
+	if db_item.size() <= 0:
+		is_valid = false
+		return self
+		
+	db_item = db_item[0]
 	
 func serialize():
 	return {

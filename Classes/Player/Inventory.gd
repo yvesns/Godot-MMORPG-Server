@@ -5,20 +5,20 @@ var items = []
 func _ready():
 	pass
 
-func init(character_name):
+func build_inventory(character_name):
 	var database_inventory = DatabaseManager.get_inventory(character_name)
 	var item
 	
 	for inventory_item in database_inventory:
-		item = DatabaseManager.get_item(inventory_item.item_fk)
+		item = Global.Item.new().build_item(inventory_item.item_fk)
+		item.set_inventory_x(inventory_item.inventory_x)
+		item.set_inventory_y(inventory_item.inventory_y)
+		item.set_owner(inventory_item.player_fk)
 		
-		if item.size() > 0:
-			item = item[0]
-			item.inventory_x = inventory_item.inventory_x
-			item.inventory_y = inventory_item.inventory_y
+		if item.is_valid:
 			items.append(item)
 	
-	return true
+	return self
 	
 func get_items():
 	return items

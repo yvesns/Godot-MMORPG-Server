@@ -7,14 +7,13 @@ var respawn_map = ""
 var logout_map = ""
 var logout_x = 0
 var logout_y = 0
-var inventory = []
+var inventory
 
 func _ready():
 	pass
 	
 func build_character(character_name):
 	var db_character = DatabaseManager.get_character(character_name)
-	var character = Global.PlayerCharacter.new()
 	
 	if db_character.size() <= 0:
 		return null
@@ -22,7 +21,7 @@ func build_character(character_name):
 	if !init_from_database(db_character):
 		return null
 		
-	return character
+	return self
 	
 func init_from_database(database_character):
 	set_name(database_character.name)
@@ -33,20 +32,7 @@ func init_from_database(database_character):
 	set_logout_map(database_character.logout_map_fk)
 	set_logout_x(database_character.logout_x)
 	set_logout_y(database_character.logout_y)
-	
-	#var inventory = Global.Inventory.new()
-	#var character
-	
-	#if !inventory.init(character_name):
-	#	return null
-	
-	#if query_result.size() <= 0:
-	#	return null
-	
-	#character = query_result[0]
-	#character.inventory = inventory.get_items()
-	
-	#return query_result[0]
+	set_inventory(Global.Inventory.new().build_inventory(database_character.name))
 	
 func get_player():
 	return player
@@ -89,6 +75,12 @@ func get_logout_y():
 	
 func set_logout_y(y):
 	logout_y = y
+	
+func get_inventory():
+	return inventory
+	
+func set_inventory(inventory):
+	self.inventory = inventory
 	
 func serialize():
 	return {
