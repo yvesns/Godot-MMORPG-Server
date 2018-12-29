@@ -162,7 +162,14 @@ func get_item(item_id):
 	return db.fetch_assoc(DatabaseQueries.select_item(), [item_id], [INT])
 	
 func insert_item(item):
-	return db.query(DatabaseQueries.insert_item(), item.to_database_array(), DatabaseInsertData.get_types("item"))
+	return db.query(DatabaseQueries.insert_item(), item.to_database_array(), DatabaseInsertData.get_types(DatabaseQueries.item_table))
+	
+#############
+# Item Type #
+#############
+
+func get_item_type(item_type_id):
+	return db.fetch_assoc(DatabaseQueries.select_item_type(), [item_type_id], [TEXT])
 	
 #############
 # Inventory #

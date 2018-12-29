@@ -67,18 +67,48 @@ func get_options():
 
 func set_options(item_options):
 	self.item_options = item_options
+
+func get_item_class():
+	return item_class
+	
+func set_item_class(item_class):
+	self.item_class = item_class
+	
+func get_race():
+	return race
+	
+func set_race(race):
+	self.race = race
+	
+func get_min_damage():
+	return min_damage
+	
+func set_min_damage(min_damage):
+	self.min_damage = min_damage
+	
+func get_max_damage():
+	return max_damage
+	
+func set_max_damage(max_damage):
+	self.max_damage = max_damage
+	
+func get_armour():
+	return armour
+	
+func set_armour(armour):
+	self.armour = armour
 	
 func get_inventory_width():
-	return inventory_slot_width
+	return inventory_width
 	
-func set_inventory_width(inventory_slot_width):
-	self.inventory_slot_width = inventory_slot_width
+func set_inventory_width(inventory_width):
+	self.inventory_width = inventory_width
 	
 func get_inventory_height():
-	return inventory_slot_height
+	return inventory_height
 	
-func set_inventory_height(inventory_slot_height):
-	self.inventory_slot_height = inventory_slot_height
+func set_inventory_height(inventory_height):
+	self.inventory_height = inventory_height
 	
 func get_inventory_x():
 	return inventory_x
@@ -89,14 +119,11 @@ func set_inventory_x(inventory_x):
 func get_inventory_y():
 	return inventory_y
 	
-func get_width():
-	return Global.inventory_slot_size * inventory_slot_width
-	
-func get_height():
-	return Global.inventory_slot_size * inventory_slot_height
+func set_inventory_y(inventory_y):
+	self.inventory_y = inventory_y
 	
 func get_slot_count():
-	return inventory_slot_width * inventory_slot_height
+	return inventory_width * inventory_height
 	
 func get_owner():
 	return owner_player
@@ -112,6 +139,10 @@ func build_item(item_id):
 		return self
 		
 	db_item = db_item[0]
+	
+	init_from_database(db_item)
+	
+	return self
 	
 func serialize():
 	return {
@@ -138,11 +169,29 @@ func deserialize(item):
 	set_inventory_height(item.inventory_slot_height)
 	
 func init_from_database(db_item):
+	var db_item_type = DatabaseManager.get_item_type(db_item.item_type_fk)
+	
+	if db_item_type.size() <= 0:
+		is_valid = false
+		return
+		
+	db_item_type = db_item_type[0]
+	
+	# Item table attributes
 	set_id(db_item.item_id)
 	set_name(db_item.name)
 	set_type(db_item.item_type_fk)
 	set_rarity(db_item.item_rarity_fk)
 	set_options(db_item.item_options)
+	
+	# Item type table attributes
+	set_item_class(db_item_type.item_class_fk)
+	set_race(db_item_type.race_fk)
+	set_min_damage(db_item_type.min_damage)
+	set_max_damage(db_item_type.max_damage)
+	set_armour(db_item_type.armour)
+	set_inventory_width(db_item_type.inventory_width)
+	set_inventory_height(db_item_type.inventory_height)
 	
 func to_database_array():
 	return [

@@ -227,6 +227,9 @@ func create_item_type_table():
 	
 	return query
 	
+func select_item_type():
+	return "SELECT * FROM " + item_type_table + " WHERE name = ?;"
+	
 func insert_item_type():
 	var query = "INSERT INTO " + item_type_table + "("
 	
