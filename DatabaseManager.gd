@@ -39,6 +39,7 @@ func init_tables():
 		data_types = DatabaseInsertData.get_types(table)
 		
 		if data_types == null:
+			print("Data type array is null. Not inserting table: " + table)
 			continue
 		
 		data = DatabaseInsertData.get_data(table)
@@ -90,6 +91,7 @@ func run_tests():
 	# Insert inventory item
 	var item_query = "SELECT * FROM " + DatabaseQueries.item_table + ";"
 	var db_item = db.fetch_assoc(item_query, [], [])[0]
+	
 	item.init_from_database(db_item)
 	print(insert_inventory_item(char1, item))
 	print(get_inventory(char1)[0])

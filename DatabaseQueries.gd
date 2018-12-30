@@ -242,7 +242,7 @@ func insert_item_type():
 	query += "inventory_width,"
 	query += "inventory_height"
 	
-	query += ") VALUES(?,?,?,?,?);"
+	query += ") VALUES(?,?,?,?,?,?,?,?);"
 	
 	return query
 	

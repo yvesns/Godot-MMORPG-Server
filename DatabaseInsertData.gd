@@ -29,8 +29,8 @@ var class_data = [
 var player_character_data_types = [TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, INT, INT]
 var player_character_data = []
 
-var itemclass_data_types = [TEXT]
-var itemclass_data = [
+var item_class_data_types = [TEXT]
+var item_class_data = [
 	["Helmet"],
 	["Weapon"],
 	["Armour"],
@@ -42,8 +42,8 @@ var itemclass_data = [
 	["Shield"]
 ]
 
-var itemtype_data_types = [TEXT, TEXT, TEXT, INT, INT, INT, INT, INT]
-var itemtype_data = [
+var item_type_data_types = [TEXT, TEXT, TEXT, INT, INT, INT, INT, INT]
+var item_type_data = [
 	["Kettle Helmet", "Helmet", "Human", 0, 0, 10, 2, 2],
 	["Sallet", "Helmet", "Human", 0, 0, 20, 2, 2],
 	["Barbuta", "Helmet", "Human", 0, 0, 30, 2, 2],
@@ -54,16 +54,16 @@ var itemtype_data = [
 	["Round Shield", "Shield", "Human", 0, 0, 50, 2, 2]
 ]
 
-var itemrarity_data_types = [TEXT]
-var itemrarity_data = [
+var item_rarity_data_types = [TEXT]
+var item_rarity_data = [
 	["Normal"],
 	["Magic"],
 	["Rare"],
 	["Legendary"]
 ]
 
-var itemoption_data_types = [TEXT, INT, INT]
-var itemoption_data = [
+var item_option_data_types = [TEXT, INT, INT]
+var item_option_data = [
 	["Increased damage", 1, 10],
 	["Increased armour", 1, 10]
 ]
