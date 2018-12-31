@@ -94,7 +94,11 @@ func run_tests():
 	
 	item.init_from_database(db_item)
 	print(insert_inventory_item(char1, item))
-	print(get_inventory(char1)[0])
+	print(get_inventory(char1.get_name())[0])
+	#print(build_character_list("test"))
+	
+	for character in build_character_list("test"):
+		print(character)
 	
 ##########
 # Player #
@@ -141,7 +145,7 @@ func build_character_list(player):
 	if characters.size() <= 0:
 		return []
 		
-	for i in range(characters.size):
+	for i in range(characters.size()):
 		characters[i] = Global.PlayerCharacter.new().init_from_database(characters[i])
 		
 	return characters
@@ -178,7 +182,7 @@ func get_item_type(item_type_id):
 #############
 
 func get_inventory(character):
-	return db.fetch_assoc(DatabaseQueries.select_inventory(), [character.get_name()], [TEXT])
+	return db.fetch_assoc(DatabaseQueries.select_inventory(), [character], [TEXT])
 	
 func insert_inventory_item(character, item):
 	var types = DatabaseInsertData.get_types(DatabaseQueries.inventory_table)

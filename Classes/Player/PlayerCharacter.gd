@@ -34,6 +34,8 @@ func init_from_database(database_character):
 	set_logout_y(database_character.logout_y)
 	set_inventory(Global.Inventory.new().build_inventory(database_character.name))
 	
+	return self
+	
 func get_player():
 	return player
 	
@@ -90,7 +92,8 @@ func serialize():
 		respawn_map = self.respawn_map,
 		logout_map = self.logout_map,
 		logout_x = self.logout_x,
-		logout_y = self.logout_y
+		logout_y = self.logout_y,
+		inventory = self.inventory.serialize()
 	}
 	
 func deserialize(character):

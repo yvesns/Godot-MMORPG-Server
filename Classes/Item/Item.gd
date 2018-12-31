@@ -148,14 +148,19 @@ func serialize():
 	return {
 		item_id = self.item_id,
 		item_name = self.item_name,
-		item_class = self.item_class,
 		item_type = self.item_type,
 		item_rarity = self.item_rarity,
-		item_options = JSON.print(self.item_options, "", true),
-		inventory_slot_width = self.inventory_slot_width,
-		inventory_slot_height = self.inventory_slot_height,
+		item_options = self.item_options,
+		item_class = self.item_class,
+		race = self.race,
+		min_damage = self.min_damage,
+		max_damage = self.max_damage,
+		armour = self.armour,
+		inventory_width = self.inventory_width,
+		inventory_height = self.inventory_height,
 		inventory_X = self.inventory_x,
-		inventory_y = self.inventory_y
+		inventory_y = self.inventory_y,
+		owner_player = self.owner_player
 	}
 	
 func deserialize(item):

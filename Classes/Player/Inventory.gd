@@ -22,3 +22,11 @@ func build_inventory(character_name):
 	
 func get_items():
 	return items
+	
+func serialize():
+	var serialized = []
+	
+	for item in items:
+		serialized.append(item.serialize())
+		
+	return serialized

@@ -288,7 +288,7 @@ func create_inventory_table():
 	var query
 	
 	query = "CREATE TABLE IF NOT EXISTS " + inventory_table + " ("
-	query += "player_fk text NOT NULL,"
+	query += "player_character_fk text NOT NULL,"
 	query += "item_fk integer NOT NULL,"
 	query += "inventory_x integer NOT NULL,"
 	query += "inventory_y integer NOT NULL,"
