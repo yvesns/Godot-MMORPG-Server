@@ -104,3 +104,6 @@ func deserialize(character):
 	set_logout_map(character.logout_map)
 	set_logout_x(character.logout_x)
 	set_logout_y(character.logout_y)
+	set_inventory(Global.Inventory.new().deserialize(character.inventory))
+	
+	return self

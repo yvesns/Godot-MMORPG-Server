@@ -166,12 +166,21 @@ func serialize():
 func deserialize(item):
 	set_id(item.item_id)
 	set_name(item.item_name)
-	set_class(item.item_class)
 	set_type(item.item_type)
 	set_rarity(item.item_rarity)
 	set_options(item.item_options)
-	set_inventory_width(item.inventory_slot_width)
-	set_inventory_height(item.inventory_slot_height)
+	set_class(item.item_class)
+	set_race(item.race)
+	set_min_damage(item.min_damage)
+	set_max_damage(item.max_damage)
+	set_armour(item.armour)
+	set_inventory_width(item.inventory_width)
+	set_inventory_height(item.inventory_height)
+	set_inventory_x(item.inventory_x)
+	set_inventory_y(item.inventory_y)
+	set_owner(item.owner_player)
+	
+	return self
 	
 func init_from_database(db_item):
 	var db_item_type = DatabaseManager.get_item_type(db_item.item_type_fk)

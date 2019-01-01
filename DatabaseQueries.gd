@@ -292,14 +292,14 @@ func create_inventory_table():
 	query += "item_fk integer NOT NULL,"
 	query += "inventory_x integer NOT NULL,"
 	query += "inventory_y integer NOT NULL,"
-	query += "FOREIGN KEY(player_fk) REFERENCES " + player_table + "(name),";
+	query += "FOREIGN KEY(player_character_fk) REFERENCES " + player_character_table + "(name),";
 	query += "FOREIGN KEY(item_fk) REFERENCES " + item_table + "(item_id)";
 	query += ");"
 	
 	return query
 	
 func select_inventory():
-	return "SELECT * FROM " + inventory_table + " WHERE player_fk = ?;"
+	return "SELECT * FROM " + inventory_table + " WHERE player_character_fk = ?;"
 	
 func insert_inventory_item():
-	return "INSERT INTO " + inventory_table + "(player_fk, item_fk, inventory_x, inventory_y) VALUES(?,?,?,?);"
+	return "INSERT INTO " + inventory_table + "(player_character_fk, item_fk, inventory_x, inventory_y) VALUES(?,?,?,?);"

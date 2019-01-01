@@ -95,10 +95,12 @@ func run_tests():
 	item.init_from_database(db_item)
 	print(insert_inventory_item(char1, item))
 	print(get_inventory(char1.get_name())[0])
-	#print(build_character_list("test"))
 	
 	for character in build_character_list("test"):
 		print(character)
+		character = character.serialize()
+		print(character)
+		character = Global.PlayerCharacter.new().deserialize(character)
 	
 ##########
 # Player #

@@ -13,7 +13,7 @@ func build_inventory(character_name):
 		item = Global.Item.new().build_item(inventory_item.item_fk)
 		item.set_inventory_x(inventory_item.inventory_x)
 		item.set_inventory_y(inventory_item.inventory_y)
-		item.set_owner(inventory_item.player_fk)
+		item.set_owner(inventory_item.player_character_fk)
 		
 		if item.is_valid:
 			items.append(item)
@@ -30,3 +30,11 @@ func serialize():
 		serialized.append(item.serialize())
 		
 	return serialized
+	
+func deserialize(serialized_items):
+	items = []
+	
+	for item in serialized_items:
+		items.append(Global.Item.new().deserialize(item))
+		
+	return self
