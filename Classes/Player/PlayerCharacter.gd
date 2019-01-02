@@ -86,14 +86,15 @@ func set_inventory(inventory):
 	
 func serialize():
 	return {
-		character_name = self.character_name,
-		character_race = self.character_race,
-		character_class = self.character_class,
-		respawn_map = self.respawn_map,
-		logout_map = self.logout_map,
-		logout_x = self.logout_x,
-		logout_y = self.logout_y,
-		inventory = self.inventory.serialize()
+		character_name = get_name(),
+		player = get_player(),
+		character_race = get_race(),
+		character_class = get_class(),
+		respawn_map = get_respawn_map(),
+		logout_map = get_logout_map(),
+		logout_x = get_logout_x(),
+		logout_y = get_logout_y(),
+		inventory = get_inventory().serialize()
 	}
 	
 func deserialize(character):

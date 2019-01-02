@@ -101,6 +101,7 @@ func run_tests():
 		character = character.serialize()
 		print(character)
 		character = Global.PlayerCharacter.new().deserialize(character)
+		print(character)
 	
 ##########
 # Player #

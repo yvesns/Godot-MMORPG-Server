@@ -67,12 +67,6 @@ func get_options():
 
 func set_options(item_options):
 	self.item_options = item_options
-
-func get_item_class():
-	return item_class
-	
-func set_item_class(item_class):
-	self.item_class = item_class
 	
 func get_race():
 	return race
@@ -146,21 +140,21 @@ func build_item(item_id):
 	
 func serialize():
 	return {
-		item_id = self.item_id,
-		item_name = self.item_name,
-		item_type = self.item_type,
-		item_rarity = self.item_rarity,
-		item_options = self.item_options,
-		item_class = self.item_class,
-		race = self.race,
-		min_damage = self.min_damage,
-		max_damage = self.max_damage,
-		armour = self.armour,
-		inventory_width = self.inventory_width,
-		inventory_height = self.inventory_height,
-		inventory_X = self.inventory_x,
-		inventory_y = self.inventory_y,
-		owner_player = self.owner_player
+		item_id = get_id(),
+		item_name = get_name(),
+		item_type = get_type(),
+		item_rarity = get_rarity(),
+		item_options = get_options(),
+		item_class = get_class(),
+		race = get_race(),
+		min_damage = get_min_damage(),
+		max_damage = get_max_damage(),
+		armour = get_armour(),
+		inventory_width = get_inventory_width(),
+		inventory_height = get_inventory_height(),
+		inventory_x = get_inventory_x(),
+		inventory_y = get_inventory_y(),
+		owner_player = get_owner()
 	}
 	
 func deserialize(item):
@@ -199,7 +193,7 @@ func init_from_database(db_item):
 	set_options(db_item.item_options)
 	
 	# Item type table attributes
-	set_item_class(db_item_type.item_class_fk)
+	set_class(db_item_type.item_class_fk)
 	set_race(db_item_type.race_fk)
 	set_min_damage(db_item_type.min_damage)
 	set_max_damage(db_item_type.max_damage)

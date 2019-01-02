@@ -51,6 +51,7 @@ remote func login(id, player, password_hash, security_token):
 		return
 	
 	var player_info = DatabaseManager.get_player(player)
+	var characters
 	
 	if (player_info.size() <= 0 ||
 		player_info.password_hash != password_hash):
@@ -62,8 +63,14 @@ remote func login(id, player, password_hash, security_token):
 		return
 		
 	character_info[id]["player"] = player_info.login
+	
+	characters = DatabaseManager.build_character_list(player)
+	
+	for character in characters:
+		character = character.serialize()
 		
-	rpc_id(id, "login_success", DatabaseManager.get_characters(player))
+	#rpc_id(id, "login_success", DatabaseManager.get_characters(player))
+	rpc_id(id, "login_success", DatabaseManager.build_character_list(player))
 	
 remote func register(id, login, password_hash, email, security_token):
 	if !validate_credentials(id, security_token):
