@@ -37,10 +37,17 @@ func validate_character_creation_info(player, character):
 	return null
 	
 func validate_character_connection(player, character_name):
-	var database_character = PlayerCharacter.new()
-	database_character.init_from_database(DatabaseManager.get_character(character_name))
+	var character = PlayerCharacter.new()
+	var database_character = DatabaseManager.get_character(character_name)
 	
-	if database_character.get_player() != player:
+	if database_character.size() <= 0:
+		return "Invalid request"
+		
+	database_character = database_character[0]
+	
+	character.init_from_database(database_character)
+	
+	if character.get_player() != player:
 		return "Invalid request"
 		
 	return null
